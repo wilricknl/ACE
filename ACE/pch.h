@@ -1,3 +1,9 @@
+/**
+ * @file pch.h
+ * @brief Precompiled headers.
+ * @author wilricknl
+ * @see https://github.com/wilricknl/ACE
+ */
 #ifndef PCH_H
 #define PCH_H
 
@@ -9,5 +15,6 @@
 #include <cstdio>
 
 #include <iostream>
+#include <string>
 
 #endif // PCH_H
