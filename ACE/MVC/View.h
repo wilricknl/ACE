@@ -30,6 +30,9 @@ namespace mvc
 		/** @brief Destroy the ImGui context.
 		 */
 		void Shutdown();
+		/** @brief Check if program should eject and exit.
+		 */
+		bool IsEject() const;
 	private:
 		/** @brief Show the graphical interface.
 		 */
@@ -37,5 +40,7 @@ namespace mvc
 		/** @brief Show the menu bar of the graphical interface.
 		 */
 		void ShowMenuBar(bool* bShow);
+	private:
+		bool bEject = false; ///< Ejection status
 	};
 } // namespace mvc

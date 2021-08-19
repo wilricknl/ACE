@@ -55,7 +55,15 @@ namespace mvc
 		ImGui_ImplWin32_Shutdown();
 		ImGui::DestroyContext();
 	}
-	
+
+	/**
+	 * @return `true` if program should eject and exit, else `false`.
+	 */
+	bool View::IsEject() const
+	{
+		return bEject;
+	}
+
 	/**
 	 * @param bShow Out boolean to store if window should still be shown `true`, or not `false`.
 	 */
@@ -81,6 +89,8 @@ namespace mvc
 		{
 			if (ImGui::BeginMenu("File"))
 			{
+				ImGui::MenuItem("Eject", nullptr, &bEject);
+
 				if (ImGui::MenuItem("Close", nullptr))
 				{
 					*bShow = !*bShow;

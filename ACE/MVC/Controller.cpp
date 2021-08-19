@@ -53,7 +53,7 @@ namespace mvc
 			SDLShowCursor(0);
 		}
 		
-		if (GetAsyncKeyState(VK_END) & 1)
+		if (view.IsEject() || GetAsyncKeyState(VK_END) & 1)
 		{
 			Shutdown();
 			bFinished = true;
