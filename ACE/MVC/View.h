@@ -40,6 +40,12 @@ namespace mvc
 		/** @brief Show the menu bar of the graphical interface.
 		 */
 		void ShowMenuBar(bool* bShow);
+		/** @brief Show the tab bar of the graphical interface.
+		 */
+		void ShowTabs();
+		/** @brief Show the general settings of the program.
+		 */
+		void ShowGeneralTab();
 	private:
 		bool bEject = false; ///< Ejection status
 	};

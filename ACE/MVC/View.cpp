@@ -76,6 +76,7 @@ namespace mvc
 		if (ImGui::Begin("Assault Cube Enhancement", bShow, window_flags))
 		{
 			ShowMenuBar(bShow);
+			ShowTabs();
 		}
 		ImGui::End();
 	}
@@ -99,6 +100,23 @@ namespace mvc
 				ImGui::EndMenu(); // File
 			}
 			ImGui::EndMenuBar();
+		}
+	}
+
+	void View::ShowTabs()
+	{
+		if (ImGui::BeginTabBar("Tabs", ImGuiTabBarFlags_None))
+		{
+			ShowGeneralTab();
+			ImGui::EndTabBar(); // Tabs
+		} 
+	}
+
+	void View::ShowGeneralTab()
+	{
+		if (ImGui::BeginTabItem("General"))
+		{
+			ImGui::EndTabItem(); // General
 		}
 	}
 } // namespace mvc
