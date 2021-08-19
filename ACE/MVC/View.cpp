@@ -40,6 +40,11 @@ namespace mvc
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
 
+		if (bDemo)
+		{
+			ImGui::ShowDemoWindow(&bDemo);
+		}
+		
 		bool bShow = true;
 		ShowWindow(&bShow);
 
@@ -90,6 +95,7 @@ namespace mvc
 		{
 			if (ImGui::BeginMenu("File"))
 			{
+				ImGui::MenuItem("Demo", nullptr, &bDemo);
 				ImGui::MenuItem("Eject", nullptr, &bEject);
 
 				if (ImGui::MenuItem("Close", nullptr))

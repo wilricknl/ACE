@@ -47,6 +47,7 @@ namespace mvc
 		 */
 		void ShowGeneralTab();
 	private:
+		bool bDemo = false; ///< Show demo window status (`true` = show and `false` = hide)
 		bool bEject = false; ///< Ejection status
 	};
 } // namespace mvc
