@@ -40,13 +40,13 @@ namespace mvc
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
 
-		bool bShowDemo;
-		ImGui::ShowDemoWindow(&bShowDemo);
+		bool bShow = true;
+		ShowWindow(&bShow);
 
 		ImGui::Render();
 		ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 
-		return bShowDemo;
+		return bShow;
 	}
 
 	void View::Shutdown()
@@ -54,5 +54,41 @@ namespace mvc
 		ImGui_ImplOpenGL2_Shutdown();
 		ImGui_ImplWin32_Shutdown();
 		ImGui::DestroyContext();
+	}
+	
+	/**
+	 * @param bShow Out boolean to store if window should still be shown `true`, or not `false`.
+	 */
+	void View::ShowWindow(bool* bShow)
+	{
+		ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar;
+		ImGui::SetNextWindowPos(ImVec2(50, 20), ImGuiCond_FirstUseEver);
+		ImGui::SetNextWindowSize(ImVec2(400, 300), ImGuiCond_FirstUseEver);
+
+		if (ImGui::Begin("Assault Cube Enhancement", bShow, window_flags))
+		{
+			ShowMenuBar(bShow);
+		}
+		ImGui::End();
+	}
+
+	/**
+	 * @param bShow Out boolean to store if window should still be shown `true`, or not `false`.
+	 */
+	void View::ShowMenuBar(bool* bShow)
+	{
+		if (ImGui::BeginMenuBar())
+		{
+			if (ImGui::BeginMenu("File"))
+			{
+				if (ImGui::MenuItem("Close", nullptr))
+				{
+					*bShow = !*bShow;
+				}
+				
+				ImGui::EndMenu(); // File
+			}
+			ImGui::EndMenuBar();
+		}
 	}
 } // namespace mvc

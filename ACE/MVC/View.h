@@ -30,5 +30,12 @@ namespace mvc
 		/** @brief Destroy the ImGui context.
 		 */
 		void Shutdown();
+	private:
+		/** @brief Show the graphical interface.
+		 */
+		void ShowWindow(bool* bShow);
+		/** @brief Show the menu bar of the graphical interface.
+		 */
+		void ShowMenuBar(bool* bShow);
 	};
 } // namespace mvc
