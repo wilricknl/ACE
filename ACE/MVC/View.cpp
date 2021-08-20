@@ -122,7 +122,67 @@ namespace mvc
 	{
 		if (ImGui::BeginTabItem("General"))
 		{
+			if (ImGui::BeginTable("Test", 2, ImGuiTableFlags_Borders))
+			{
+				ImGui::TableSetupColumn("Freeze");
+				ImGui::TableSetupColumn("Amount");
+				ImGui::TableHeadersRow();
+
+				static bool bTmp = false;
+				static int iTmp = 0;
+				
+				ImGui::TableNextColumn();
+				ImGui::Checkbox("Health", &bTmp);
+				ImGui::SameLine();
+				ImGui::TableNextColumn();
+				ImGui::SetNextItemWidth(-FLT_MIN);
+				ImGui::SliderInt("slider", &iTmp, 1, 10);
+
+				ImGui::TableNextColumn();
+				ImGui::Checkbox("Armor", &bTmp);
+				ImGui::SameLine();
+				ImGui::TableNextColumn();
+				ImGui::SetNextItemWidth(-FLT_MIN);
+				ImGui::SliderInt("slider", &iTmp, 1, 10);
+
+				ImGui::TableNextColumn();
+				ImGui::Checkbox("Ammunition", &bTmp);
+				ImGui::SameLine();
+				ImGui::TableNextColumn();
+				ImGui::SetNextItemWidth(-FLT_MIN);
+				ImGui::SliderInt("slider", &iTmp, 1, 10);
+
+				ImGui::TableNextColumn();
+				ImGui::Checkbox("Infinite jump", &bTmp);
+				
+				ImGui::EndTable(); // Test
+			}
+			ShowLogo(true);
+			
 			ImGui::EndTabItem(); // General
 		}
+	}
+
+	/**
+	 * @param bCentered Center text if `true`, else align left.
+	 */
+	void View::ShowLogo(bool bCentered)
+	{
+		const std::string logo{
+				"          _ _      _      _          _ \n"
+				"__      _(_) |_ __(_) ___| | ___ __ | |\n"
+				"\\ \\ /\\ / / | | '__| |/ __| |/ / '_ \\| |\n"
+				" \\ V  V /| | | |  | | (__|   <| | | | |\n"
+				"  \\_/\\_/ |_|_|_|  |_|\\___|_|\\_\\_| |_|_|\n"
+				"                                       \n"
+				"   https://github.com/wilricknl/ACE/   "};
+		// Idea taken from https://stackoverflow.com/a/67855985
+		if (bCentered)
+		{
+			auto windowWidth = ImGui::GetWindowSize().x;
+			auto textWidth = ImGui::CalcTextSize(logo.substr(0, 39).c_str()).x;
+			ImGui::SetCursorPosX((windowWidth - textWidth) * 0.5f);
+		}
+		ImGui::Text(logo.c_str());
 	}
 } // namespace mvc

@@ -46,6 +46,9 @@ namespace mvc
 		/** @brief Show the general settings of the program.
 		 */
 		void ShowGeneralTab();
+		/** @brief Show my ASCII logo.
+		 */
+		void ShowLogo(bool bCentered = false);
 	private:
 		bool bDemo = false; ///< Show demo window status (`true` = show and `false` = hide)
 		bool bEject = false; ///< Ejection status
