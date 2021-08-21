@@ -4,7 +4,7 @@
  *
  * @author wilricknl
  * @date 17 August 2021
- * @version 0.0.3
+ * @version 0.1.0
  * @see https://github.com/wilricknl/ACE
  */
 /**
@@ -23,6 +23,8 @@ namespace version
 
 /**
  * Version History
+ *
+ * Release version 0.1.0
  *
  * 0.0.3
  * [+] Change health, armor, and ammunition
