@@ -77,6 +77,11 @@ namespace mvc
 		return bInitialized;
 	}
 
+	void Model::Execute()
+	{
+		Freeze();
+	}
+
 	/**
 	 * @return `true` if initialized, else `false`.
 	 */
@@ -129,5 +134,17 @@ namespace mvc
 			return true;
 		}
 		return false;
+	}
+
+	void Model::Freeze()
+	{
+		Freeze(health);
+		Freeze(armor);
+		Freeze(ammunition);
+
+		if (jump.bEnabled)
+		{
+			localPlayer->bJump = true;
+		}
 	}
 } // namespace mvc

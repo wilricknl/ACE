@@ -52,6 +52,8 @@ namespace mvc
 		{
 			SDLShowCursor(0);
 		}
+
+		model.Execute();
 		
 		if (view.IsEject() || GetAsyncKeyState(VK_END) & 1)
 		{

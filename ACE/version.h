@@ -4,7 +4,7 @@
  *
  * @author wilricknl
  * @date 17 August 2021
- * @version 0.0.2
+ * @version 0.0.3
  * @see https://github.com/wilricknl/ACE
  */
 /**
@@ -23,6 +23,10 @@ namespace version
 
 /**
  * Version History
+ *
+ * 0.0.3
+ * [+] Change health, armor, and ammunition
+ * [+] Freeze health, armor, ammunition and jump
  *
  * 0.0.2
  * [+] Custom window and menu bar

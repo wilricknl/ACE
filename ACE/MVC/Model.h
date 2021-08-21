@@ -18,6 +18,9 @@ namespace mvc
 		/** @brief Initialize the model.
 		 */
 		bool Initialize();
+		/** @brief Keep data and game modifications updated.
+		 */
+		void Execute();
 		/** @brief Check initialization status.
 		 */
 		bool IsInitialized() const;
@@ -37,6 +40,19 @@ namespace mvc
 		/** @brief Get the base address of Assault Cube.
 		 */
 		bool GetModuleBaseAddress();
+		/** @brief Call all freezes
+		 */
+		void Freeze();
+		/** @brief Freeze function for CheckSliders
+		 */
+		template<typename T>
+		void Freeze(CheckSlider<T>& data)
+		{
+			if (data.checkbox.bEnabled)
+			{
+				data.slider.Update();
+			}
+		}
 	private:
 		uintptr_t moduleBaseAddress; ///< Base address of Assault Cube executable.
 		re::Entity* localPlayer; ///< Pointer to local player memory region.
