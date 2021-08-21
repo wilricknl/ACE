@@ -166,6 +166,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="version.h" />
     <ClInclude Include="MVC\View.h" />
+    <ClInclude Include="MVC\Widgets.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui.cpp">
@@ -213,6 +214,10 @@
     </ClCompile>
     <ClCompile Include="version.cpp" />
     <ClCompile Include="MVC\View.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="MVC\Widgets.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
     </ClCompile>

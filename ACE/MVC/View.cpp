@@ -4,9 +4,10 @@
  * @see https://github.com/wilricknl/ACE
  */
 #include "../pch.h"
-
+#include "../version.h"
 #include "../ImGui/imgui_impl_opengl2.h"
 #include "../ImGui/imgui_impl_win32.h"
+#include "Widgets.h"
 #include "View.h"
 
 namespace mvc
@@ -78,7 +79,7 @@ namespace mvc
 		ImGui::SetNextWindowPos(ImVec2(50, 20), ImGuiCond_FirstUseEver);
 		ImGui::SetNextWindowSize(ImVec2(400, 300), ImGuiCond_FirstUseEver);
 
-		if (ImGui::Begin("Assault Cube Enhancement", bShow, window_flags))
+		if (ImGui::Begin(("Assault Cube Enhancement (" + version::version + ")").c_str(), bShow, window_flags))
 		{
 			ShowMenuBar(bShow);
 			ShowTabs();
@@ -128,35 +129,24 @@ namespace mvc
 				ImGui::TableSetupColumn("Amount");
 				ImGui::TableHeadersRow();
 
-				static bool bTmp = false;
-				static int iTmp = 0;
+				static CheckSliderInt32 data = CheckSliderInt32("Health", 0, 9999, [](int i) {}, 1337);
+				ShowCheckSliderInt32(data);
+
+				static CheckSliderInt32 data2 = CheckSliderInt32("Armor", 0, 9999, [](int i) {}, 1337);
+				ShowCheckSliderInt32(data2);
+
+				static CheckSliderInt32 data3 = CheckSliderInt32("Ammunition", 0, 9999, [](int i) {}, 1337);
+				ShowCheckSliderInt32(data3);
 				
 				ImGui::TableNextColumn();
-				ImGui::Checkbox("Health", &bTmp);
-				ImGui::SameLine();
-				ImGui::TableNextColumn();
-				ImGui::SetNextItemWidth(-FLT_MIN);
-				ImGui::SliderInt("slider", &iTmp, 1, 10);
 
-				ImGui::TableNextColumn();
-				ImGui::Checkbox("Armor", &bTmp);
-				ImGui::SameLine();
-				ImGui::TableNextColumn();
-				ImGui::SetNextItemWidth(-FLT_MIN);
-				ImGui::SliderInt("slider", &iTmp, 1, 10);
-
-				ImGui::TableNextColumn();
-				ImGui::Checkbox("Ammunition", &bTmp);
-				ImGui::SameLine();
-				ImGui::TableNextColumn();
-				ImGui::SetNextItemWidth(-FLT_MIN);
-				ImGui::SliderInt("slider", &iTmp, 1, 10);
-
-				ImGui::TableNextColumn();
+				static bool bTmp = false;
 				ImGui::Checkbox("Infinite jump", &bTmp);
 				
 				ImGui::EndTable(); // Test
 			}
+
+			
 			ShowLogo(true);
 			
 			ImGui::EndTabItem(); // General

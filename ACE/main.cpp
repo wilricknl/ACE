@@ -1,17 +1,8 @@
 /**
- * @mainpage Assault Cube Enhancement
- * An open source cheat for Assault Cube.
- *
- * @author wilricknl
- * @date 17 August 2021
- * @version 0.0.1
- * @see https://github.com/wilricknl/ACE
- */
-/**
  * @file main.cpp
  * @brief Entrance of the program.
  * @author wilricknl
- * @see https://github.com/wilricknl/ACE
+ * @see https://github.com/wilricknl/ACE and version.h for more information.
  */
 #include "pch.h"
 #include "MVC/Controller.h"

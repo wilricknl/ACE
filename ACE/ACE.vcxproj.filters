@@ -66,6 +66,9 @@
     <ClCompile Include="Memory\Memory.cpp">
       <Filter>Memory</Filter>
     </ClCompile>
+    <ClCompile Include="MVC\Widgets.cpp">
+      <Filter>MVC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -106,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="Memory\Memory.h">
       <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="MVC\Widgets.h">
+      <Filter>MVC</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
