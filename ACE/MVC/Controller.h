@@ -5,7 +5,7 @@
  * @see https://github.com/wilricknl/ACE
  */
 #pragma once
-
+#include "Model.h"
 #include "View.h"
 
 namespace mvc
@@ -75,6 +75,7 @@ namespace mvc
 		WNDPROC originalWindowProcedure; ///< Pointer to Assault Cube's Window Procedure.
 		tSDL_ShowCursor SDLShowCursor; ///< Pointer to `SDL_ShowCursor` function.
 
+		Model model; ///< The data management of the program.
 		View view; ///< The GUI of the program.
 
 		bool bShowWindow; ///< `bool` to keep track if the view is shown (`true`) or not (`false`).

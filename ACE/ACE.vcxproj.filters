@@ -69,6 +69,15 @@
     <ClCompile Include="MVC\Widgets.cpp">
       <Filter>MVC</Filter>
     </ClCompile>
+    <ClCompile Include="ReClass\Entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ReClass\Weapon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MVC\Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -112,6 +121,18 @@
     </ClInclude>
     <ClInclude Include="MVC\Widgets.h">
       <Filter>MVC</Filter>
+    </ClInclude>
+    <ClInclude Include="ReClass\Entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ReClass\Padding.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ReClass\Weapon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MVC\Model.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

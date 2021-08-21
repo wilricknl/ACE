@@ -101,7 +101,7 @@ namespace mvc
 
 	Controller::Controller()
 		: gateway(nullptr), originalWindowProcedure(nullptr), SDLShowCursor(nullptr),
-		bShowWindow(false), bFinished(false)
+		view(model),bShowWindow(false), bFinished(false)
 	{}
 
 	/**

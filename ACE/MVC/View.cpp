@@ -12,7 +12,8 @@
 
 namespace mvc
 {
-	View::View()
+	View::View(Model& model)
+		: model(model)
 	{
 	}
 
@@ -129,23 +130,16 @@ namespace mvc
 				ImGui::TableSetupColumn("Amount");
 				ImGui::TableHeadersRow();
 
-				static CheckSliderInt32 data = CheckSliderInt32("Health", 0, 9999, [](int i) {}, 1337);
-				ShowCheckSliderInt32(data);
-
-				static CheckSliderInt32 data2 = CheckSliderInt32("Armor", 0, 9999, [](int i) {}, 1337);
-				ShowCheckSliderInt32(data2);
-
-				static CheckSliderInt32 data3 = CheckSliderInt32("Ammunition", 0, 9999, [](int i) {}, 1337);
-				ShowCheckSliderInt32(data3);
+				ShowCheckSliderInt32(model.GetHealth());
+				ShowCheckSliderInt32(model.GetArmor());
+				ShowCheckSliderInt32(model.GetAmmunition());
 				
 				ImGui::TableNextColumn();
-
-				static bool bTmp = false;
-				ImGui::Checkbox("Infinite jump", &bTmp);
+				Checkbox& jump = model.GetJump();
+				ImGui::Checkbox(jump.label.c_str(), &jump.bEnabled);
 				
 				ImGui::EndTable(); // Test
 			}
-
 			
 			ShowLogo(true);
 			

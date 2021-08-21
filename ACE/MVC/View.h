@@ -5,6 +5,7 @@
  * @see https://github.com/wilricknl/ACE
  */
 #pragma once
+#include "Model.h"
 
 namespace mvc
 {
@@ -14,7 +15,7 @@ namespace mvc
 	class View
 	{
 	public:
-		View();
+		View(Model& model);
 		~View() = default;
 		View(const View& view) = delete;
 		View(View&& view) = delete;
@@ -52,5 +53,6 @@ namespace mvc
 	private:
 		bool bDemo = false; ///< Show demo window status (`true` = show and `false` = hide)
 		bool bEject = false; ///< Ejection status
+		Model& model; ///< The data storage of the graphical interface.
 	};
 } // namespace mvc
