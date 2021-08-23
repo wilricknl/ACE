@@ -135,7 +135,7 @@ namespace mvc
 				ShowCheckSliderInt32(model.GetArmor());
 				ShowCheckSliderInt32(model.GetAmmunition());
 				ShowCheckbox(model.GetJump());
-				
+
 				ImGui::EndTable(); // General
 			}
 			
@@ -154,14 +154,12 @@ namespace mvc
 				ImGui::TableSetupColumn("Assistance");
 				ImGui::TableHeadersRow();
 
-				static bool bTmp = false;
 				ShowCheckbox(model.GetTriggerbot());
+				ShowPatchbox(model.GetNoRecoil());
 
+				static bool bTmp = false;
 				ImGui::TableNextColumn();
-				ImGui::Checkbox("Aim Bot", &bTmp);
-
-				ImGui::TableNextColumn();
-				ImGui::Checkbox("No Recoil/Spread", &bTmp);
+				ImGui::Checkbox("Aimbot", &bTmp);
 
 				ImGui::EndTable(); // Aim Assist
 			}

@@ -5,6 +5,7 @@
  */
 #include "../pch.h"
 #include "../ReClass/Weapon.h"
+#include "../Memory/Memory.h"
 #include "Model.h"
 
 namespace mvc
@@ -77,6 +78,14 @@ namespace mvc
 				localPlayer->bShoot = false;
 			}
 		}
+	}),
+	noRecoil("No Recoil/Spread", [this]
+	{
+		memory::Nop((BYTE*)(moduleBaseAddress + 0x63786), 10);
+	}, [this]
+	{
+		memory::Patch((BYTE*)(moduleBaseAddress + 0x63786), 
+			(BYTE*)"\x50\x8D\x4C\x24\x1C\x51\x8B\xCE\xFF\xD2", 10);
 	})
 	{
 		Initialize();
@@ -152,6 +161,14 @@ namespace mvc
 	Checkbox& Model::GetTriggerbot()
 	{
 		return triggerbot;
+	}
+
+	/**
+	 * @return Reference to @ref noRecoil
+	 */
+	Patchbox& Model::GetNoRecoil()
+	{
+		return noRecoil;
 	}
 
 	/**

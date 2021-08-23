@@ -4,7 +4,7 @@
  *
  * @author wilricknl
  * @date 17 August 2021
- * @version 0.1.0
+ * @version 0.1.1
  * @see https://github.com/wilricknl/ACE
  */
 /**
@@ -23,6 +23,12 @@ namespace version
 
 /**
  * Version History
+ *
+ * 0.1.1
+ * [+] Refactor widgets
+ * [+] Add Aim Assist tab
+ * [+] Add triggerbot
+ * [+] Add no recoil/spread
  *
  * Release version 0.1.0
  *

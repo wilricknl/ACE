@@ -41,6 +41,9 @@ namespace mvc
 		/** @brief Get access to the triggerbot data
 		*/
 		Checkbox& GetTriggerbot();
+		/** @brief Get access to the no recoil data
+		*/
+		Patchbox& GetNoRecoil();
 	private:
 		/** @brief Get the base address of Assault Cube.
 		 */
@@ -70,5 +73,6 @@ namespace mvc
 		CheckSliderInt32 ammunition; ///< Local player ammunition data.
 		Freezebox jump; ///< Local player jump status.
 		Freezebox triggerbot; ///< Triggerbot
+		Patchbox noRecoil; ///< No recoil and no spread
 	};
 } // namespace mvc

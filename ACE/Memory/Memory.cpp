@@ -31,6 +31,27 @@ namespace memory
 	}
 
 	/**
+	 * Write @p size nop bytes (no operation = 0x90) at @p destination
+	 *
+	 * @pre Destination is at least @p size in length.
+	 *
+	 * @param destination The address where the nops should be written.
+	 * @param size The number of bytes that will be overwritten.
+	 *
+	 * @return `true` if patch succeeded, else `false`.
+	 */
+	bool Nop(BYTE* destination, unsigned size)
+	{
+		DWORD oldProtection;
+		if (VirtualProtect(destination, size, PAGE_EXECUTE_READWRITE, &oldProtection))
+		{
+			memset(destination, 0x90, size);
+			return VirtualProtect(destination, size, oldProtection, &oldProtection) != 0;
+		}
+		return false;
+	}
+
+	/**
 	 * The relative address between @p hook and @p jump gets calculated. Then
 	 * a jump to this relative address will be written at the location of @p hook.
 	 * 
