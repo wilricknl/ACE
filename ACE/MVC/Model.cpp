@@ -54,7 +54,7 @@ namespace mvc
 			}
 		},
 		1337),
-	jump("Jump")
+	jump("Jump", [this] { localPlayer->bJump = true; })
 	{
 		Initialize();
 	}
@@ -141,10 +141,14 @@ namespace mvc
 		Freeze(health);
 		Freeze(armor);
 		Freeze(ammunition);
+		Freeze(jump);
+	}
 
-		if (jump.bEnabled)
+	void Model::Freeze(Freezebox& data)
+	{
+		if (data.bEnabled)
 		{
-			localPlayer->bJump = true;
+			data.freeze();
 		}
 	}
 } // namespace mvc

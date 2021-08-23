@@ -9,6 +9,21 @@
 
 namespace mvc
 {
+	void ShowCheckbox(Checkbox& data)
+	{
+		ImGui::TableNextColumn();
+		ImGui::Checkbox(data.label.c_str(), &data.bEnabled);
+	}
+
+	void ShowPatchbox(Patchbox& data)
+	{
+		ShowCheckbox(data);
+		if (ImGui::IsItemEdited())
+		{
+			data.Toggle();
+		}
+	}
+
 	/**
 	 * @pre The function should be called within `ImGui::BeginTable`. For optimal display use 2 columns.
 	 *
@@ -30,7 +45,7 @@ namespace mvc
 			ImGuiSliderFlags_AlwaysClamp);
 		if (ImGui::IsItemEdited())
 		{
-			data.slider.Update();
+			data.Update();
 		}
 	}
 } // namespace mvc

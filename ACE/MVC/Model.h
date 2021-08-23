@@ -50,9 +50,11 @@ namespace mvc
 		{
 			if (data.checkbox.bEnabled)
 			{
-				data.slider.Update();
+				data.Update();
 			}
 		}
+
+		void Freeze(Freezebox& data);
 	private:
 		uintptr_t moduleBaseAddress; ///< Base address of Assault Cube executable.
 		re::Entity* localPlayer; ///< Pointer to local player memory region.
@@ -60,6 +62,6 @@ namespace mvc
 		CheckSliderInt32 health; ///< Local player health data.
 		CheckSliderInt32 armor; ///< Local player armor data.
 		CheckSliderInt32 ammunition; ///< Local player ammunition data.
-		Checkbox jump; ///< Local player jump status.
+		Freezebox jump; ///< Local player jump status.
 	};
 } // namespace mvc

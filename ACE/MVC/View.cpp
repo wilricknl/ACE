@@ -124,7 +124,7 @@ namespace mvc
 	{
 		if (ImGui::BeginTabItem("General"))
 		{
-			if (ImGui::BeginTable("Test", 2, ImGuiTableFlags_Borders))
+			if (ImGui::BeginTable("General", 2, ImGuiTableFlags_Borders))
 			{
 				ImGui::TableSetupColumn("Freeze");
 				ImGui::TableSetupColumn("Amount");
@@ -133,12 +133,9 @@ namespace mvc
 				ShowCheckSliderInt32(model.GetHealth());
 				ShowCheckSliderInt32(model.GetArmor());
 				ShowCheckSliderInt32(model.GetAmmunition());
+				ShowCheckbox(model.GetJump());
 				
-				ImGui::TableNextColumn();
-				Checkbox& jump = model.GetJump();
-				ImGui::Checkbox(jump.label.c_str(), &jump.bEnabled);
-				
-				ImGui::EndTable(); // Test
+				ImGui::EndTable(); // General
 			}
 			
 			ShowLogo(true);
