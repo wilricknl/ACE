@@ -13,6 +13,7 @@ namespace mvc
 		:
 	moduleBaseAddress(0),
 	localPlayer(nullptr),
+	GetEntityAtCrosshair(nullptr),
 	bInitialized(false),
 	health(
 		"Health",
@@ -54,7 +55,29 @@ namespace mvc
 			}
 		},
 		1337),
-	jump("Jump", [this] { localPlayer->bJump = true; })
+	jump("Jump", [this] { localPlayer->bJump = true; }),
+	triggerbot("Triggerbot", [this]
+	{
+		if (GetEntityAtCrosshair)
+		{
+			auto* entity = (re::Entity*)GetEntityAtCrosshair();
+			if (entity)
+			{
+				if (entity->Team != localPlayer->Team && entity->Health != 0)
+				{
+					localPlayer->bShoot = true;
+				}
+				else
+				{
+					localPlayer->bShoot = false;
+				}
+			}
+			else
+			{
+				localPlayer->bShoot = false;
+			}
+		}
+	})
 	{
 		Initialize();
 	}
@@ -67,6 +90,7 @@ namespace mvc
 		if (GetModuleBaseAddress())
 		{
 			localPlayer = *(re::Entity**)(moduleBaseAddress + 0x10F4F4);
+			GetEntityAtCrosshair = (tGetEntityAtCrosshair)0x4607C0;
 			bInitialized = true;
 		}
 		else
@@ -123,6 +147,14 @@ namespace mvc
 	}
 
 	/**
+	 * @return Reference to @ref triggerbot
+	 */
+	Checkbox& Model::GetTriggerbot()
+	{
+		return triggerbot;
+	}
+
+	/**
 	 * @return `true` if succeeded, else `false`.
 	 */
 	bool Model::GetModuleBaseAddress()
@@ -142,6 +174,7 @@ namespace mvc
 		Freeze(armor);
 		Freeze(ammunition);
 		Freeze(jump);
+		Freeze(triggerbot);
 	}
 
 	void Model::Freeze(Freezebox& data)

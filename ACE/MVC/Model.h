@@ -10,6 +10,8 @@
 
 namespace mvc
 {
+	typedef int(__cdecl* tGetEntityAtCrosshair)(); ///< Assault Cube function to trace entity at crosshair position
+
 	class Model
 	{
 	public:
@@ -36,6 +38,9 @@ namespace mvc
 		/** @brief Get access to the local player's jump status.
 		 */
 		Checkbox& GetJump();
+		/** @brief Get access to the triggerbot data
+		*/
+		Checkbox& GetTriggerbot();
 	private:
 		/** @brief Get the base address of Assault Cube.
 		 */
@@ -58,10 +63,12 @@ namespace mvc
 	private:
 		uintptr_t moduleBaseAddress; ///< Base address of Assault Cube executable.
 		re::Entity* localPlayer; ///< Pointer to local player memory region.
+		tGetEntityAtCrosshair GetEntityAtCrosshair; ///< Function pointer to `GetCrosshairEntity` function
 		bool bInitialized; ///< Initialization status.
 		CheckSliderInt32 health; ///< Local player health data.
 		CheckSliderInt32 armor; ///< Local player armor data.
 		CheckSliderInt32 ammunition; ///< Local player ammunition data.
 		Freezebox jump; ///< Local player jump status.
+		Freezebox triggerbot; ///< Triggerbot
 	};
 } // namespace mvc

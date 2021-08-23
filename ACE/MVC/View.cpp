@@ -116,6 +116,7 @@ namespace mvc
 		if (ImGui::BeginTabBar("Tabs", ImGuiTabBarFlags_None))
 		{
 			ShowGeneralTab();
+			ShowAimAssistTab();
 			ImGui::EndTabBar(); // Tabs
 		} 
 	}
@@ -141,6 +142,30 @@ namespace mvc
 			ShowLogo(true);
 			
 			ImGui::EndTabItem(); // General
+		}
+	}
+
+	void View::ShowAimAssistTab()
+	{
+		if (ImGui::BeginTabItem("Aim Assist"))
+		{
+			if (ImGui::BeginTable("Aim Assist", 1, ImGuiTableFlags_Borders))
+			{
+				ImGui::TableSetupColumn("Assistance");
+				ImGui::TableHeadersRow();
+
+				static bool bTmp = false;
+				ShowCheckbox(model.GetTriggerbot());
+
+				ImGui::TableNextColumn();
+				ImGui::Checkbox("Aim Bot", &bTmp);
+
+				ImGui::TableNextColumn();
+				ImGui::Checkbox("No Recoil/Spread", &bTmp);
+
+				ImGui::EndTable(); // Aim Assist
+			}
+			ImGui::EndTabItem(); // Aim Assist
 		}
 	}
 

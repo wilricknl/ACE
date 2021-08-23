@@ -47,6 +47,9 @@ namespace mvc
 		/** @brief Show the general settings of the program.
 		 */
 		void ShowGeneralTab();
+		/** Show the aim assist settings of the program.
+		 */
+		void ShowAimAssistTab();
 		/** @brief Show my ASCII logo.
 		 */
 		void ShowLogo(bool bCentered = false);
