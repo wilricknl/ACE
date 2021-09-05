@@ -13,8 +13,8 @@ namespace math
 	 */
 	float Vec3::Distance(Vec3 const& other) const
 	{
-		return (float)std::sqrt(std::pow(x * other.x, 2) 
-			+ std::pow(y * other.y, 2) 
-			+ std::pow(z * other.z, 2));
+		return (float)std::sqrt(std::pow(other.x - x, 2) 
+			+ std::pow(other.y - y, 2) 
+			+ std::pow(other.z - z, 2));
 	}
 } // namespace math
