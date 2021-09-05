@@ -156,10 +156,7 @@ namespace mvc
 
 				ShowCheckbox(model.GetTriggerbot());
 				ShowPatchbox(model.GetNoRecoil());
-
-				static bool bTmp = false;
-				ImGui::TableNextColumn();
-				ImGui::Checkbox("Aimbot", &bTmp);
+				ShowCheckbox(model.GetAimbot());
 
 				ImGui::EndTable(); // Aim Assist
 			}

@@ -25,6 +25,12 @@
     <Filter Include="Memory">
       <UniqueIdentifier>{8ed4d4bd-1368-481c-873a-23000b2d2712}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{2f4cad3f-51ea-488d-a11d-6e488bb5eb67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReClass">
+      <UniqueIdentifier>{6f628c54-9793-4a3e-8477-66c29d6ff575}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -69,13 +75,19 @@
     <ClCompile Include="MVC\Widgets.cpp">
       <Filter>MVC</Filter>
     </ClCompile>
+    <ClCompile Include="Utility\Vec.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
     <ClCompile Include="ReClass\Entity.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>ReClass</Filter>
     </ClCompile>
     <ClCompile Include="ReClass\Weapon.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>ReClass</Filter>
     </ClCompile>
     <ClCompile Include="MVC\Model.cpp">
+      <Filter>MVC</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\Math.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -122,16 +134,22 @@
     <ClInclude Include="MVC\Widgets.h">
       <Filter>MVC</Filter>
     </ClInclude>
-    <ClInclude Include="ReClass\Entity.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Utility\Vec.h">
+      <Filter>Utility</Filter>
     </ClInclude>
-    <ClInclude Include="ReClass\Padding.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="ReClass\Entity.h">
+      <Filter>ReClass</Filter>
     </ClInclude>
     <ClInclude Include="ReClass\Weapon.h">
-      <Filter>Header Files</Filter>
+      <Filter>ReClass</Filter>
+    </ClInclude>
+    <ClInclude Include="ReClass\Padding.h">
+      <Filter>ReClass</Filter>
     </ClInclude>
     <ClInclude Include="MVC\Model.h">
+      <Filter>MVC</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Math.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

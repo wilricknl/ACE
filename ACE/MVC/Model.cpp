@@ -57,28 +57,7 @@ namespace mvc
 		},
 		1337),
 	jump("Jump", [this] { localPlayer->bJump = true; }),
-	triggerbot("Triggerbot", [this]
-	{
-		if (GetEntityAtCrosshair)
-		{
-			auto* entity = (re::Entity*)GetEntityAtCrosshair();
-			if (entity)
-			{
-				if (entity->Team != localPlayer->Team && entity->Health != 0)
-				{
-					localPlayer->bShoot = true;
-				}
-				else
-				{
-					localPlayer->bShoot = false;
-				}
-			}
-			else
-			{
-				localPlayer->bShoot = false;
-			}
-		}
-	}),
+	triggerbot("Triggerbot", [this] { Triggerbot(); }),
 	noRecoil("No Recoil/Spread", [this]
 	{
 		memory::Nop((BYTE*)(moduleBaseAddress + 0x63786), 10);
@@ -86,7 +65,8 @@ namespace mvc
 	{
 		memory::Patch((BYTE*)(moduleBaseAddress + 0x63786), 
 			(BYTE*)"\x50\x8D\x4C\x24\x1C\x51\x8B\xCE\xFF\xD2", 10);
-	})
+	}),
+	aimbot("Aimbot", [this] { Aimbot(); })
 	{
 		Initialize();
 	}
@@ -172,6 +152,14 @@ namespace mvc
 	}
 
 	/**
+	 * @return Reference to @ref aimbot
+	 */
+	Checkbox& Model::GetAimbot()
+	{
+		return aimbot;
+	}
+
+	/**
 	 * @return `true` if succeeded, else `false`.
 	 */
 	bool Model::GetModuleBaseAddress()
@@ -192,6 +180,7 @@ namespace mvc
 		Freeze(ammunition);
 		Freeze(jump);
 		Freeze(triggerbot);
+		Freeze(aimbot);
 	}
 
 	void Model::Freeze(Freezebox& data)
@@ -200,5 +189,38 @@ namespace mvc
 		{
 			data.freeze();
 		}
+	}
+
+	void Model::Triggerbot() const
+	{
+		if (GetEntityAtCrosshair)
+		{
+			auto* entity = (re::Entity*)GetEntityAtCrosshair();
+			if (entity)
+			{
+				if (entity->Team != localPlayer->Team && entity->Health != 0)
+				{
+					localPlayer->bShoot = true;
+				}
+				else
+				{
+					localPlayer->bShoot = false;
+				}
+			}
+			else
+			{
+				localPlayer->bShoot = false;
+			}
+		}
+	}
+
+	void Model::Aimbot() const
+	{
+		// TODO: aimbot logic
+	}
+
+	int32_t Model::GetNumberOfPlayers() const
+	{
+		return *(int32_t*)(moduleBaseAddress + 0x10F500);
 	}
 } // namespace mvc
