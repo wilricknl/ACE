@@ -216,7 +216,40 @@ namespace mvc
 
 	void Model::Aimbot() const
 	{
-		// TODO: aimbot logic
+		auto entityList{ *(re::EntityList**)(moduleBaseAddress + 0x10F4F8) };
+		if (!entityList)
+		{
+			return;
+		}
+
+		re::Entity* closestEntity{ nullptr };
+		float closestDistance{ 9999.0f };
+		for (int i{ 1 }; i <= GetNumberOfPlayers(); ++i)
+		{
+			auto entity{ entityList->entities[i] };
+			if (entity 
+				and localPlayer != entity 
+				and localPlayer->Team != entity->Team
+				and entity->IsAlive()
+				and localPlayer->IsEntityVisible(entity))
+			{
+				auto distance{ localPlayer->Head.Distance(entity->Head) };
+				if (distance < closestDistance)
+				{
+					closestEntity = entity;
+				}
+			}
+		}
+
+		if (closestEntity)
+		{
+			// TODO: set angle
+			localPlayer->bShoot = true;
+		}
+		else
+		{
+			localPlayer->bShoot = false;
+		}
 	}
 
 	int32_t Model::GetNumberOfPlayers() const

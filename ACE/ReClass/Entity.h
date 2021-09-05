@@ -27,5 +27,15 @@ namespace re
 		/** @brief Check if @p other is visible
 		 */
 		bool IsEntityVisible(re::Entity* other) const;
+		/** @brief Check if player is still alive
+		 */
+		bool IsAlive() const;
+	};
+
+	class EntityList
+	{
+	public:
+		static constexpr int MAX_ENTITIES{ 32 };
+		Entity* entities[MAX_ENTITIES];
 	};
 } // namespace re

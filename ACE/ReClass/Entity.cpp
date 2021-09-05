@@ -17,16 +17,15 @@ namespace re
 	bool Entity::IsEntityVisible(re::Entity* other) const
 	{
 		uintptr_t  traceFunction = 0x0048A310;
-		uintptr_t localAddress{ (uintptr_t)this };
 		Traceresult result{ {}, false };
 		math::Vec3 start{ Head };
 		math::Vec3 end{ other->Head };
 
 		__asm
 		{
-			push 0
-			push 0
-			push localAddress
+			push 0; bSkipTags
+			push 0; bCheckPlayers
+			push this
 			push end.z
 			push end.y
 			push end.x
@@ -39,5 +38,10 @@ namespace re
 		}
 
 		return !result.bCollided;
+	}
+
+	bool Entity::IsAlive() const
+	{
+		return Health > 0 and Health <= 100;
 	}
 } // namespace re
