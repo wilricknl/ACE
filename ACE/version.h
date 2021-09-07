@@ -4,7 +4,7 @@
  *
  * @author wilricknl
  * @date 17 August 2021
- * @version 0.1.1
+ * @version 0.2.0
  * @see https://github.com/wilricknl/ACE
  */
 /**
@@ -23,6 +23,13 @@ namespace version
 
 /**
  * Version History
+ *
+ * Release version 0.2.0
+ *
+ * 0.1.2
+ * [+] Add aimbot
+ * [+] Add math functions and Vec3
+ * [+] Add head location, angles and bShoot to Entity class
  *
  * 0.1.1
  * [+] Refactor widgets
