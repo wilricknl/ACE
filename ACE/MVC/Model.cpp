@@ -223,7 +223,7 @@ namespace mvc
 		}
 
 		re::Entity* closestEntity{ nullptr };
-		float closestDistance{ 9999999999.0f };
+		double closestDistance{ 9999999999.0 };
 		for (int i{ 0 }; i < GetNumberOfPlayers(); ++i)
 		{
 			auto entity{ entityList->entities[i] };
@@ -233,7 +233,7 @@ namespace mvc
 				and entity->IsAlive()
 				and localPlayer->IsEntityVisible(entity))
 			{
-				auto distance{ localPlayer->Head.DistanceSquared(entity->Head) };
+				const auto distance{ localPlayer->Head.DistanceSquared(entity->Head) };
 				if (distance < closestDistance)
 				{
 					closestEntity = entity;
