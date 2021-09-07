@@ -116,6 +116,7 @@ namespace mvc
 		if (ImGui::BeginTabBar("Tabs", ImGuiTabBarFlags_None))
 		{
 			ShowGeneralTab();
+			ShowAimAssistTab();
 			ImGui::EndTabBar(); // Tabs
 		} 
 	}
@@ -124,7 +125,7 @@ namespace mvc
 	{
 		if (ImGui::BeginTabItem("General"))
 		{
-			if (ImGui::BeginTable("Test", 2, ImGuiTableFlags_Borders))
+			if (ImGui::BeginTable("General", 2, ImGuiTableFlags_Borders))
 			{
 				ImGui::TableSetupColumn("Freeze");
 				ImGui::TableSetupColumn("Amount");
@@ -133,17 +134,33 @@ namespace mvc
 				ShowCheckSliderInt32(model.GetHealth());
 				ShowCheckSliderInt32(model.GetArmor());
 				ShowCheckSliderInt32(model.GetAmmunition());
-				
-				ImGui::TableNextColumn();
-				Checkbox& jump = model.GetJump();
-				ImGui::Checkbox(jump.label.c_str(), &jump.bEnabled);
-				
-				ImGui::EndTable(); // Test
+				ShowCheckbox(model.GetJump());
+
+				ImGui::EndTable(); // General
 			}
 			
 			ShowLogo(true);
 			
 			ImGui::EndTabItem(); // General
+		}
+	}
+
+	void View::ShowAimAssistTab()
+	{
+		if (ImGui::BeginTabItem("Aim Assist"))
+		{
+			if (ImGui::BeginTable("Aim Assist", 1, ImGuiTableFlags_Borders))
+			{
+				ImGui::TableSetupColumn("Assistance");
+				ImGui::TableHeadersRow();
+
+				ShowCheckbox(model.GetTriggerbot());
+				ShowPatchbox(model.GetNoRecoil());
+				ShowCheckbox(model.GetAimbot());
+
+				ImGui::EndTable(); // Aim Assist
+			}
+			ImGui::EndTabItem(); // Aim Assist
 		}
 	}
 

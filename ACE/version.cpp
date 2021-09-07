@@ -8,5 +8,5 @@
 
 namespace version
 {
-	std::string version{ "0.1.0" };
+	std::string version{ "0.2.0" };
 } // namespace version

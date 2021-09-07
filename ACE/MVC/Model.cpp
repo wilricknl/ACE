@@ -5,6 +5,7 @@
  */
 #include "../pch.h"
 #include "../ReClass/Weapon.h"
+#include "../Memory/Memory.h"
 #include "Model.h"
 
 namespace mvc
@@ -13,6 +14,7 @@ namespace mvc
 		:
 	moduleBaseAddress(0),
 	localPlayer(nullptr),
+	GetEntityAtCrosshair(nullptr),
 	bInitialized(false),
 	health(
 		"Health",
@@ -54,7 +56,17 @@ namespace mvc
 			}
 		},
 		1337),
-	jump("Jump")
+	jump("Jump", [this] { localPlayer->bJump = true; }),
+	triggerbot("Triggerbot", [this] { Triggerbot(); }),
+	noRecoil("No Recoil/Spread", [this]
+	{
+		memory::Nop((BYTE*)(moduleBaseAddress + 0x63786), 10);
+	}, [this]
+	{
+		memory::Patch((BYTE*)(moduleBaseAddress + 0x63786), 
+			(BYTE*)"\x50\x8D\x4C\x24\x1C\x51\x8B\xCE\xFF\xD2", 10);
+	}),
+	aimbot("Aimbot", [this] { Aimbot(); })
 	{
 		Initialize();
 	}
@@ -67,6 +79,7 @@ namespace mvc
 		if (GetModuleBaseAddress())
 		{
 			localPlayer = *(re::Entity**)(moduleBaseAddress + 0x10F4F4);
+			GetEntityAtCrosshair = (tGetEntityAtCrosshair)0x4607C0;
 			bInitialized = true;
 		}
 		else
@@ -123,6 +136,30 @@ namespace mvc
 	}
 
 	/**
+	 * @return Reference to @ref triggerbot
+	 */
+	Checkbox& Model::GetTriggerbot()
+	{
+		return triggerbot;
+	}
+
+	/**
+	 * @return Reference to @ref noRecoil
+	 */
+	Patchbox& Model::GetNoRecoil()
+	{
+		return noRecoil;
+	}
+
+	/**
+	 * @return Reference to @ref aimbot
+	 */
+	Checkbox& Model::GetAimbot()
+	{
+		return aimbot;
+	}
+
+	/**
 	 * @return `true` if succeeded, else `false`.
 	 */
 	bool Model::GetModuleBaseAddress()
@@ -141,10 +178,83 @@ namespace mvc
 		Freeze(health);
 		Freeze(armor);
 		Freeze(ammunition);
+		Freeze(jump);
+		Freeze(triggerbot);
+		Freeze(aimbot);
+	}
 
-		if (jump.bEnabled)
+	void Model::Freeze(Freezebox& data)
+	{
+		if (data.bEnabled)
 		{
-			localPlayer->bJump = true;
+			data.freeze();
 		}
+	}
+
+	void Model::Triggerbot() const
+	{
+		if (GetEntityAtCrosshair)
+		{
+			auto* entity = (re::Entity*)GetEntityAtCrosshair();
+			if (entity)
+			{
+				if (entity->Team != localPlayer->Team && entity->Health != 0)
+				{
+					localPlayer->bShoot = true;
+				}
+				else
+				{
+					localPlayer->bShoot = false;
+				}
+			}
+			else
+			{
+				localPlayer->bShoot = false;
+			}
+		}
+	}
+
+	void Model::Aimbot() const
+	{
+		auto entityList{ *(re::EntityList**)(moduleBaseAddress + 0x10F4F8) };
+		if (!entityList)
+		{
+			return;
+		}
+
+		re::Entity* closestEntity{ nullptr };
+		double closestDistance{ 9999999999.0 };
+		for (int i{ 0 }; i < GetNumberOfPlayers(); ++i)
+		{
+			auto entity{ entityList->entities[i] };
+			if (entity 
+				and localPlayer != entity 
+				and localPlayer->Team != entity->Team
+				and entity->IsAlive()
+				and localPlayer->IsEntityVisible(entity))
+			{
+				const auto distance{ localPlayer->Head.DistanceSquared(entity->Head) };
+				if (distance < closestDistance)
+				{
+					closestEntity = entity;
+					closestDistance = distance;
+				}
+			}
+		}
+
+		if (closestEntity)
+		{
+			localPlayer->Angle = localPlayer->Head.Angle(closestEntity->Head);
+			localPlayer->bShoot = true;
+		}
+		else
+		{
+			localPlayer->bShoot = false;
+		}
+	}
+
+	int32_t Model::GetNumberOfPlayers() const
+	{
+		return *(int32_t*)(moduleBaseAddress + 0x10F500);
 	}
 } // namespace mvc
