@@ -237,6 +237,7 @@ namespace mvc
 				if (distance < closestDistance)
 				{
 					closestEntity = entity;
+					closestDistance = distance;
 				}
 			}
 		}
