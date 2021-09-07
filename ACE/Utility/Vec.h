@@ -17,12 +17,17 @@ namespace math
 			: x(x), y(y), z(z)
 		{}
 
-		Vec3 operator+(Vec3 const& other) const;
-		Vec3 operator-(Vec3 const& other) const;
+		Vec3& operator+=(Vec3 const& rhs);
+		Vec3 operator+(Vec3 const& rhs) const;
+		Vec3& operator-=(Vec3 const& rhs);
+		Vec3 operator-(Vec3 const& rhs) const;
 
 		/** @brief Calculate the distance between this and @p other
 		 */
 		float Distance(Vec3 const& other) const;
+		/** @brief Calculate the distance squared between this and @p other
+		 */
+		double DistanceSquared(Vec3 const& other) const;
 		/** @brief Calculate pitch and yaw to @p other
 		 */
 		Vec3 Angle(Vec3 const& other) const;

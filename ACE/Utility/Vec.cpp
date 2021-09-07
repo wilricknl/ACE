@@ -8,17 +8,35 @@
 
 namespace math
 {
-	Vec3 Vec3::operator+(Vec3 const& other) const
+	Vec3& Vec3::operator+=(Vec3 const& rhs)
 	{
-		return { x + other.x, y + other.y, z + other.z };
+		x += rhs.x;
+		y += rhs.y;
+		z += rhs.z;
+		return *this;
 	}
 
-	Vec3 Vec3::operator-(Vec3 const& other) const
+	Vec3 Vec3::operator+(Vec3 const& rhs) const
 	{
-		return { x - other.x, y - other.y, z - other.z };
+		return Vec3(*this) += rhs;
+	}
+
+	Vec3& Vec3::operator-=(Vec3 const& rhs)
+	{
+		x -= rhs.x;
+		y -= rhs.y;
+		z -= rhs.z;
+		return *this;
+	}
+
+	Vec3 Vec3::operator-(Vec3 const& rhs) const
+	{
+		return Vec3(*this) -= rhs;
 	}
 
 	/**
+	 * @param other The end point of the distance
+	 *
 	 * @return The distance
 	 */
 	float Vec3::Distance(Vec3 const& other) const
@@ -26,6 +44,18 @@ namespace math
 		return (float)std::sqrt(std::pow(other.x - x, 2) 
 			+ std::pow(other.y - y, 2) 
 			+ std::pow(other.z - z, 2));
+	}
+
+	/**
+	 * @param other The end point of the distance
+	 *
+	 * @return The squared distance
+	 */
+	double Vec3::DistanceSquared(Vec3 const& other) const
+	{
+		return std::pow(other.x - x, 2)
+			+ std::pow(other.y - y, 2)
+			+ std::pow(other.z - z, 2);
 	}
 
 	/**
