@@ -8,12 +8,18 @@
 
 namespace re
 {
+	/**
+	 * @brief Structure used by trace function
+	 */
 	struct Traceresult
 	{
-		math::Vec3 end;
-		bool bCollided;
+		math::Vec3 end; ///< Collision position
+		bool bCollided; ///< Collision status
 	};
 
+	/**
+	 * @return `true` if @p other is visible, else `false`
+	 */
 	bool Entity::IsEntityVisible(re::Entity* other) const
 	{
 		uintptr_t  traceFunction = 0x0048A310;
@@ -40,6 +46,9 @@ namespace re
 		return !result.bCollided;
 	}
 
+	/**
+	 * @return `true` if @ref Health is in (0, 100]
+	 */
 	bool Entity::IsAlive() const
 	{
 		return Health > 0 and Health <= 100;

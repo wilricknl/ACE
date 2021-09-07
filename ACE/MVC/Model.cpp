@@ -224,7 +224,7 @@ namespace mvc
 
 		re::Entity* closestEntity{ nullptr };
 		float closestDistance{ 9999.0f };
-		for (int i{ 1 }; i <= GetNumberOfPlayers(); ++i)
+		for (int i{ 0 }; i < GetNumberOfPlayers(); ++i)
 		{
 			auto entity{ entityList->entities[i] };
 			if (entity 
@@ -243,7 +243,7 @@ namespace mvc
 
 		if (closestEntity)
 		{
-			// TODO: set angle
+			localPlayer->Angle = localPlayer->Head.Angle(closestEntity->Head);
 			localPlayer->bShoot = true;
 		}
 		else

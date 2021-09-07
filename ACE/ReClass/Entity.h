@@ -11,11 +11,15 @@
 
 namespace re
 {
+	/**
+	 * @brief Reversed entity class of Assault Cube
+	 */
 	class Entity
 	{
 	public:
 		union {
 			DEFINE_MEMBER_N(math::Vec3, Head, 0x0004);
+			DEFINE_MEMBER_N(math::Vec3, Angle, 0x0040);
 			DEFINE_MEMBER_N(bool, bJump, 0x0069);
 			DEFINE_MEMBER_N(int32_t, Health, 0x00F8);
 			DEFINE_MEMBER_N(int32_t, Armor, 0x00FC);
@@ -32,10 +36,13 @@ namespace re
 		bool IsAlive() const;
 	};
 
+	/**
+	 * @brief Reversed entity list structure of Assault Cube
+	 */
 	class EntityList
 	{
 	public:
-		static constexpr int MAX_ENTITIES{ 32 };
-		Entity* entities[MAX_ENTITIES];
+		static constexpr int MAX_ENTITIES{ 32 }; ///< The maximum number of entities
+		Entity* entities[MAX_ENTITIES]; ///< The entity array
 	};
 } // namespace re
