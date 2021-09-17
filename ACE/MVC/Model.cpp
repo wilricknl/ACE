@@ -66,7 +66,8 @@ namespace mvc
 		memory::Patch((BYTE*)(moduleBaseAddress + 0x63786), 
 			(BYTE*)"\x50\x8D\x4C\x24\x1C\x51\x8B\xCE\xFF\xD2", 10);
 	}),
-	aimbot("Aimbot", [this] { Aimbot(); })
+	aimbot("Aimbot", [this] { Aimbot(); }),
+	esp("ESP", [this]() { ESP(); })
 	{
 		Initialize();
 	}
@@ -157,6 +158,11 @@ namespace mvc
 	Checkbox& Model::GetAimbot()
 	{
 		return aimbot;
+	}
+
+	Checkbox& Model::GetESP()
+	{
+		return esp;
 	}
 
 	/**
@@ -251,6 +257,10 @@ namespace mvc
 		{
 			localPlayer->bShoot = false;
 		}
+	}
+
+	void Model::ESP() const
+	{
 	}
 
 	int32_t Model::GetNumberOfPlayers() const

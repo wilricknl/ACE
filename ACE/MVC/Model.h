@@ -47,6 +47,9 @@ namespace mvc
 		/** @brief Get access to aimbot data
 		 */
 		Checkbox& GetAimbot();
+		/** @brief Get access to ESP data
+		 */
+		Checkbox& GetESP();
 	private:
 		/** @brief Get the base address of Assault Cube.
 		 */
@@ -73,6 +76,9 @@ namespace mvc
 		/** @brief Aimbot logic
 		 */
 		void Aimbot() const;
+		/** @brief ESP drawing
+		 */
+		void ESP() const;
 		/** @brief Get number of players in-game
 		 */
 		int32_t GetNumberOfPlayers() const;
@@ -88,5 +94,6 @@ namespace mvc
 		Freezebox triggerbot; ///< Triggerbot
 		Patchbox noRecoil; ///< No recoil and no spread
 		Freezebox aimbot; ///< Aimbot
+		Freezebox esp; ///< ESP
 	};
 } // namespace mvc
