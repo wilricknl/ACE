@@ -87,8 +87,11 @@
     <ClCompile Include="MVC\Model.cpp">
       <Filter>MVC</Filter>
     </ClCompile>
+    <ClCompile Include="Utility\Draw.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
     <ClCompile Include="Utility\Math.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -149,8 +152,11 @@
     <ClInclude Include="MVC\Model.h">
       <Filter>MVC</Filter>
     </ClInclude>
+    <ClInclude Include="Utility\Draw.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
     <ClInclude Include="Utility\Math.h">
-      <Filter>Header Files</Filter>
+      <Filter>Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
