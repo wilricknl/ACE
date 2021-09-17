@@ -91,4 +91,21 @@ namespace draw
 		glEnd();
 		glDisable(GL_BLEND);
 	}
+
+	/**
+	 * @p x Top left x-coordinate of the bar
+	 * @p y Top left y-coordinate of the bar
+	 * @p width The width of the bar
+	 * @p height The height of the bar
+	 * @p value The value of the bar
+	 * @p maximum The maximum value of the bar
+	 * @p foreground The foreground color of the slider
+	 * @p background The background color of the slider
+	 */
+	void Draw::Bar2D(float x, float y, float width, float height, float value, float maximum, Color const& foreground, Color const& background)
+	{
+		Rectangle2D(x, y, width, height, background);
+		float valueHeight{ height * (value / maximum) };
+		Rectangle2D(x, y + height - valueHeight, width, valueHeight, foreground);
+	}
 } // namespace draw

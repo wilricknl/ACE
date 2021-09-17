@@ -41,6 +41,9 @@ namespace draw
 		/** @brief Draw a 2D outline
 		 */
 		void RectangleOutline2D(float x, float y, float width, float height, float lineWidth, float lineOffset, Color const& color);
+		/** @brief Draw a 2D bar
+		 */
+		void Bar2D(float x, float y, float width, float height, float value, float maximum, Color const& foreground, Color const& background);
 	private:
 		int viewport[4]{ 0 }; ///< Viewport
 	};
