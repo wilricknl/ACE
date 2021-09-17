@@ -4,7 +4,7 @@
 
 namespace draw
 {
-	void Draw::Setup()
+	void Draw::Setup2D()
 	{
 		glPushAttrib(GL_ALL_ATTRIB_BITS);
 		glPushMatrix();
@@ -18,14 +18,22 @@ namespace draw
 		glDisable(GL_DEPTH_TEST);
 	}
 
-	void Draw::Restore()
+	void Draw::Restore2D()
 	{
 		glPopMatrix();
 		glPopAttrib();
 		glEnable(GL_DEPTH_TEST);
 	}
 
-	void Draw::Line(float x1, float y1, float x2, float y2, float lineWidth, Color const& color)
+	/**
+	 * @p x1 The x-value of point 1
+	 * @p y1 The y-value of point 1
+	 * @p x2 The x-value of point 2
+	 * @p y2 The y-value of point 2
+	 * @p lineWidth The width of the line
+	 * @p color The color of the line
+	 */
+	void Draw::Line2D(float x1, float y1, float x2, float y2, float lineWidth, Color const& color)
 	{
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -38,7 +46,14 @@ namespace draw
 		glDisable(GL_BLEND);
 	}
 
-	void Draw::Rect(float x, float y, float width, float height, Color const& color)
+	/**
+	 * @p x Top left x-coordinate
+	 * @p y Top left y-coordinate
+	 * @p width The width of the rectangle
+	 * @p height The height of the rectangle
+	 * @p color The color of the rectangle
+	 */
+	void Draw::Rectangle2D(float x, float y, float width, float height, Color const& color)
 	{
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -52,7 +67,16 @@ namespace draw
 		glDisable(GL_BLEND);
 	}
 
-	void Draw::Outline(float x, float y, float width, float height, float lineWidth, float lineOffset, Color const& color)
+	/**
+	 * @p x Top left x-coordinate
+	 * @p y Top left y-coordinate
+	 * @p width The width of the rectangle
+	 * @p height The height of the rectangle
+	 * @p lineWidth The width of the line
+	 * @p lineOffset The offset outside the triangle
+	 * @p color The color of the rectangle
+	 */
+	void Draw::RectangleOutline2D(float x, float y, float width, float height, float lineWidth, float lineOffset, Color const& color)
 	{
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
