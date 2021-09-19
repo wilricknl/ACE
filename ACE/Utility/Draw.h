@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+#include "Vec.h"
 
 namespace draw
 {
@@ -44,7 +46,28 @@ namespace draw
 		/** @brief Draw a 2D bar
 		 */
 		void Bar2D(float x, float y, float width, float height, float value, float maximum, Color const& foreground, Color const& background);
+		/** @brief Prepare the font for drawing text on the screen
+		 */
+		void SetupText(int height);
+		/** @brief Draw text onto the screen
+		 */
+		void Text(float x, float y, std::string const& text, Color const& color) const;
+		/** @brief Center the text along a rectangle
+		 */
+		math::Vec3 CenterText(float x, float y, float width, float height, float textWidth, float textHeight);
+		/** @brief Center the text around an axis
+		 */
+		float CenterTextAxis(float axis, float axisSize, float textSize);
+		/** @brief Check if the font is already built 
+		 */
+		bool IsFontBuilt() const;
+		/** @brief Get the current known HDC
+		 */
+		HDC GetHDC() const;
 	private:
+		bool bFontBuilt = false; ///< Font build status
+		unsigned int base; ///< Font base
+		HDC hdc; ///< Last known hdc
 		int viewport[4]{ 0 }; ///< Viewport
 	};
 } // namespace draw

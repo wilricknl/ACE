@@ -108,4 +108,94 @@ namespace draw
 		float valueHeight{ height * (value / maximum) };
 		Rectangle2D(x, y + height - valueHeight, width, valueHeight, foreground);
 	}
+
+	/**
+	 * @p height The height of the text
+	 *
+	 * @post The text can be drawn to the screen
+	 */
+	void Draw::SetupText(int height)
+	{
+		hdc = wglGetCurrentDC();
+		base = glGenLists(96);
+		auto hFont = CreateFontA(-height, 0, 0, 0, FW_MEDIUM, FALSE, 
+			FALSE, FALSE, ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS,
+			PROOF_QUALITY, FF_DONTCARE | DEFAULT_PITCH, "Consolas");
+		auto hOldFont = (HFONT)SelectObject(hdc, hFont);
+		wglUseFontBitmaps(hdc, 32, 96, base);
+		SelectObject(hdc, hOldFont);
+		DeleteObject(hFont);
+		bFontBuilt = true;
+	}
+
+	/**
+	 * @pre The font is built using @ref SetupText
+	 *
+	 * @p x The x coordinate where the text should be drawn
+	 * @p y The y coordinate where the text should be drawn
+	 * @p text The text that should be drawn
+	 * @p color The color of the text
+	 */
+	void Draw::Text(float x, float y, std::string const& text, Color const& color) const
+	{
+		glColor4f(color.r, color.g, color.b, color.a);
+		glRasterPos2f(x, y);
+		glPushAttrib(GL_LIST_BIT);
+		glListBase(base - 32);
+		glCallLists(text.size(), GL_UNSIGNED_BYTE, text.c_str());
+		glPopAttrib();
+	}
+
+	/**
+	 * Find the center where the text should be drawn, such that it's
+	 * centered in relation to a rectangle.
+	 *
+	 * @p x Top left x of the rectangle
+	 * @p y Top left y of the rectangle
+	 * @p width The width of the rectangle
+	 * @p height The height of the rectangle
+	 * @p textWidth The width of the text
+	 * @p textHeight The height of the text
+	 *
+	 * @return The position where the text should be drawn.
+	 */
+	math::Vec3 Draw::CenterText(float x, float y, float width, float height, float textWidth, float textHeight)
+	{
+		return math::Vec3{
+			CenterTextAxis(x, width, textWidth),
+			CenterTextAxis(y, height, textHeight)
+		};
+	}
+
+	/**
+	 * @p axis The axis value
+	 * @p axisSize The size of the axis
+	 * @p textSize The text axis' size
+	 *
+	 * @return The value where the text is centered compared to the axis.
+	 */
+	float Draw::CenterTextAxis(float axis, float axisSize, float textSize)
+	{
+		if (axisSize > textSize)
+		{
+			return axis + (axisSize - textSize) / 2.f;
+		}
+		return axis - (textSize - axisSize) / 2.f;
+	}
+
+	/**
+	 * @return `true` if the text is built, else `false`
+	 */
+	bool Draw::IsFontBuilt() const
+	{
+		return bFontBuilt;
+	}
+
+	/**
+	 * @return The currently known `HDC`
+	 */
+	HDC Draw::GetHDC() const
+	{
+		return hdc;
+	}
 } // namespace draw
