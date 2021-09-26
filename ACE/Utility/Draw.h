@@ -64,9 +64,18 @@ namespace draw
 			float maximum, 
 			Color const& foreground, 
 			Color const& background) const;
+		/** @brief Draw entity outline
+		 */
+		void Entity2D(
+			re::Entity* entity,
+			bool bFriendly,
+			float lineWidth = 4.f,
+			float lineOffset = 0.5f,
+			int fontWidth = 9,
+			int fontHeight = 15) const;
 		/** @brief Prepare the font for drawing text on the screen
 		 */
-		void SetupText(int height);
+		void SetupText(int height = 19);
 		/** @brief Draw text onto the screen
 		 */
 		void Text(float x, float y, std::string const& text, Color const& color) const;
@@ -92,8 +101,8 @@ namespace draw
 	private:
 		mvc::Model& model; ///< Reference to model
 		bool bFontBuilt = false; ///< Font build status
-		unsigned int base; ///< Font base
-		HDC hdc; ///< Last known hdc
+		unsigned int base{}; ///< Font base
+		HDC hdc{}; ///< Last known hdc
 		int viewport[4]{ 0 }; ///< Viewport
 	};
 } // namespace draw

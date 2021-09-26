@@ -34,7 +34,7 @@ namespace draw
 		const Color blue{ 0.f, 0.f, 1.f, 1.f }; ///< Blue
 		const Color magenta{ 1.f, 0.f, 1.f, 1.f }; ///< Magenta
 		const Color black{ 0.f, 0.f, 0.f, 1.f }; ///< Black
-		const Color enemy{ 1.f, 0.2f, 0.2f, 1.f }; ///< Enemy
-		const Color friendly{ 0.2f, 1.f, 0.2f, 1.f }; ///< Friendly
+		const Color friendly{ 1.f, 0.2f, 0.2f, 1.f }; ///< Friendly
+		const Color enemy{ 0.2f, 1.f, 0.2f, 1.f }; ///< Enemy
 	} // namespace colors
 } // namespace draw

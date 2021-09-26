@@ -271,6 +271,20 @@ namespace mvc
 
 	void Model::ESP()
 	{
+		auto entityList{ GetEntityList() };
+		if (entityList)
+		{
+			draw.Setup2D();
+			for (int i{ 0 }; i < GetNumberOfPlayers(); ++i)
+			{
+				auto entity = entityList->entities[i];
+				if (entity and entity->IsAlive() and localPlayer)
+				{
+					draw.Entity2D(entity, localPlayer->Team != entity->Team);
+				}
+			}
+			draw.Restore2D();
+		}
 	}
 
 	/**

@@ -4,7 +4,7 @@
  *
  * @author wilricknl
  * @date 17 August 2021
- * @version 0.2.1
+ * @version 0.2.2
  * @see https://github.com/wilricknl/ACE
  */
 /**
@@ -23,6 +23,10 @@ namespace version
 
 /**
  * Version History
+ *
+ * 0.2.2
+ * [+] 2D ESP for entities
+ * [!] After ejecting text is bugged when reinjecting and game is not restarted
  *
  * 0.2.1
  * [+] OpenGL line, outline, rectangle, bar, and text drawing

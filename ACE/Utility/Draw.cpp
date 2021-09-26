@@ -22,6 +22,11 @@ namespace draw
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		glDisable(GL_DEPTH_TEST);
+
+		if (!bFontBuilt or hdc != wglGetCurrentDC())
+		{
+			SetupText();
+		}
 	}
 
 	void Draw::Restore2D()
@@ -142,6 +147,97 @@ namespace draw
 	}
 
 	/**
+	 * @p entity Pointer to entity
+	 * @p bFriendly Is the entity friendly to us
+	 * @p lineWidth The width of the line
+	 * @p lineOffset The offset of the outline
+	 * @p barWidth The width of the health and armor bars
+	 * @p fontWidth The width of the font
+	 * @p fontHeight The height of the font
+	 */
+	void Draw::Entity2D(
+		re::Entity* entity, 
+		bool bFriendly, 
+		float lineWidth, 
+		float lineOffset, 
+		int fontWidth, 
+		int fontHeight) const
+	{
+		math::Vec2 screenHeadCoordinates, screenFeetCoordinates;
+		WorldToScreen(math::Vec3{ entity->Head }, screenHeadCoordinates, viewport[2], viewport[3]);
+		WorldToScreen(math::Vec3{ entity->Position }, screenFeetCoordinates, viewport[2], viewport[3]);
+
+		const float height{ screenFeetCoordinates.y - screenHeadCoordinates.y };
+		const float width{ height / 2.f };
+		const float barWidth{ width * 0.1f };
+		const float x{ screenHeadCoordinates.x - width / 2.f };
+		const float y{ screenHeadCoordinates.y };
+
+		// Player box
+		Rectangle2D(
+			x, 
+			y, 
+			width, 
+			height, 
+			bFriendly ? colors::friendly.SetA(.2f) : colors::enemy.SetA(.2f));
+
+		// Player box outline
+		RectangleOutline2D(
+			x,
+			y,
+			width,
+			height,
+			lineWidth,
+			lineOffset,
+			bFriendly ? colors::friendly : colors::enemy
+		);
+
+		// Health bar
+		Bar2D(
+			x + width + lineOffset * 2.f, 
+			y, 
+			barWidth, 
+			height, 
+			(float)entity->Health, 
+			100.f, 
+			colors::yellow.SetA(.8f),
+			colors::black.SetA(0.5f));
+
+		// Armor bar
+		Bar2D(
+			x + width + barWidth + lineOffset * 3.f,
+			y,
+			barWidth,
+			height,
+			(float)entity->Armor,
+			100.f,
+			colors::cyan.SetA(.8f),
+			colors::black.SetA(0.5f));
+
+		// Health and armor outline
+		RectangleOutline2D(
+			x + width + lineOffset * 2.f, 
+			y, 
+			barWidth * 2.f + lineOffset, 
+			height, 
+			lineWidth, 
+			lineOffset, 
+			bFriendly ? colors::friendly : colors::enemy);
+
+		// Player name
+		std::string name{ &entity->Name };
+		Text(
+			CenterTextAxis(
+				screenHeadCoordinates.x - width / 2.f, 
+				width, 
+				(float)name.size() * (float)fontWidth),
+			screenHeadCoordinates.y - (float)fontHeight / 2.f - lineOffset,
+			name,
+			colors::white
+		);
+	}
+
+	/**
 	 * @p height The height of the text
 	 *
 	 * @post The text can be drawn to the screen
@@ -174,7 +270,7 @@ namespace draw
 		glRasterPos2f(x, y);
 		glPushAttrib(GL_LIST_BIT);
 		glListBase(base - 32);
-		glCallLists(text.size(), GL_UNSIGNED_BYTE, text.c_str());
+		glCallLists((int)text.size(), GL_UNSIGNED_BYTE, text.c_str());
 		glPopAttrib();
 	}
 
