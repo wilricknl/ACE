@@ -1,9 +1,15 @@
 #include "../pch.h"
 #include "gl/GL.h"
+#include "../MVC/Model.h"
 #include "Draw.h"
 
 namespace draw
 {
+	Draw::Draw(mvc::Model& model)
+		: model(model)
+	{
+	}
+
 	void Draw::Setup2D()
 	{
 		glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -33,7 +39,13 @@ namespace draw
 	 * @p lineWidth The width of the line
 	 * @p color The color of the line
 	 */
-	void Draw::Line2D(float x1, float y1, float x2, float y2, float lineWidth, Color const& color)
+	void Draw::Line2D(
+		float x1, 
+		float y1, 
+		float x2, 
+		float y2, 
+		float lineWidth, 
+		Color const& color) const
 	{
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -53,7 +65,12 @@ namespace draw
 	 * @p height The height of the rectangle
 	 * @p color The color of the rectangle
 	 */
-	void Draw::Rectangle2D(float x, float y, float width, float height, Color const& color)
+	void Draw::Rectangle2D(
+		float x, 
+		float y, 
+		float width, 
+		float height, 
+		Color const& color) const
 	{
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -76,12 +93,19 @@ namespace draw
 	 * @p lineOffset The offset outside the triangle
 	 * @p color The color of the rectangle
 	 */
-	void Draw::RectangleOutline2D(float x, float y, float width, float height, float lineWidth, float lineOffset, Color const& color)
+	void Draw::RectangleOutline2D(
+		float x, 
+		float y, 
+		float width, 
+		float height, 
+		float lineWidth, 
+		float lineOffset, 
+		Color const& color) const
 	{
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glColor4f(color.r, color.g, color.b, color.a);
-		glBegin(GL_LINE_STRIP);
+		glBegin(GL_LINE_STRIP); 
 		glLineWidth(lineWidth);
 		glVertex2f(x - lineOffset, y - lineOffset);
 		glVertex2f(x + width + lineOffset, y - lineOffset);
@@ -102,7 +126,15 @@ namespace draw
 	 * @p foreground The foreground color of the slider
 	 * @p background The background color of the slider
 	 */
-	void Draw::Bar2D(float x, float y, float width, float height, float value, float maximum, Color const& foreground, Color const& background)
+	void Draw::Bar2D(
+		float x, 
+		float y, 
+		float width, 
+		float height, 
+		float value, 
+		float maximum, 
+		Color const& foreground, 
+		Color const& background) const
 	{
 		Rectangle2D(x, y, width, height, background);
 		float valueHeight{ height * (value / maximum) };
@@ -130,7 +162,7 @@ namespace draw
 
 	/**
 	 * @pre The font is built using @ref SetupText
-	 *
+	 * 
 	 * @p x The x coordinate where the text should be drawn
 	 * @p y The y coordinate where the text should be drawn
 	 * @p text The text that should be drawn
@@ -159,7 +191,13 @@ namespace draw
 	 *
 	 * @return The position where the text should be drawn.
 	 */
-	math::Vec3 Draw::CenterText(float x, float y, float width, float height, float textWidth, float textHeight)
+	math::Vec3 Draw::CenterText(
+		float x, 
+		float y, 
+		float width, 
+		float height, 
+		float textWidth, 
+		float textHeight) const
 	{
 		return math::Vec3{
 			CenterTextAxis(x, width, textWidth),
@@ -174,7 +212,10 @@ namespace draw
 	 *
 	 * @return The value where the text is centered compared to the axis.
 	 */
-	float Draw::CenterTextAxis(float axis, float axisSize, float textSize)
+	float Draw::CenterTextAxis(
+		float axis, 
+		float axisSize, 
+		float textSize) const
 	{
 		if (axisSize > textSize)
 		{
@@ -197,5 +238,42 @@ namespace draw
 	HDC Draw::GetHDC() const
 	{
 		return hdc;
+	}
+
+	/**
+	 * @p position The position of the player
+	 * @p outScreenCoordinates Out screen coordinates
+	 * @p windowWidth The width of the window
+	 * @p windowHeight The height of the window
+	 *
+	 * @return `true` if player is visible, else `false`
+	 */
+	bool Draw::WorldToScreen(math::Vec3 position, math::Vec2& outScreenCoordinates, int windowWidth, int windowHeight) const
+	{
+		auto viewMatrix = model.GetViewMatrix();
+		const math::Vec4 clippingCoordinates {
+			position.x * viewMatrix[0] + position.y * viewMatrix[4] + position.z * viewMatrix[8] + viewMatrix[12],
+			position.x * viewMatrix[1] + position.y * viewMatrix[5] + position.z * viewMatrix[9] + viewMatrix[13],
+			position.x * viewMatrix[2] + position.y * viewMatrix[6] + position.z * viewMatrix[10] + viewMatrix[14],
+			position.x * viewMatrix[3] + position.y * viewMatrix[7] + position.z * viewMatrix[11] + viewMatrix[15]
+		};
+
+		if (clippingCoordinates.w < 0.1f)
+		{
+			return false;
+		}
+
+		math::Vec3 ndc{
+			clippingCoordinates.x / clippingCoordinates.w,
+			clippingCoordinates.y / clippingCoordinates.w,
+			clippingCoordinates.z / clippingCoordinates.w
+		};
+
+		outScreenCoordinates = math::Vec2{
+			(float)windowWidth / 2.f * ndc.x + ndc.x + (float)windowWidth / 2.f,
+			-(float)windowHeight / 2.f * ndc.y + ndc.y + (float)windowHeight / 2.f
+		};
+
+		return true;
 	}
 } // namespace draw

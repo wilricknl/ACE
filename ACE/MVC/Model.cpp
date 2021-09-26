@@ -15,6 +15,7 @@ namespace mvc
 	moduleBaseAddress(0),
 	localPlayer(nullptr),
 	GetEntityAtCrosshair(nullptr),
+	draw(*this),
 	bInitialized(false),
 	health(
 		"Health",
@@ -166,6 +167,14 @@ namespace mvc
 	}
 
 	/**
+	 * @return View matrix
+	 */
+	float* Model::GetViewMatrix() const
+	{
+		return (float*)(moduleBaseAddress + 0x101AE8);
+	}
+
+	/**
 	 * @return `true` if succeeded, else `false`.
 	 */
 	bool Model::GetModuleBaseAddress()
@@ -187,6 +196,7 @@ namespace mvc
 		Freeze(jump);
 		Freeze(triggerbot);
 		Freeze(aimbot);
+		Freeze(esp);
 	}
 
 	void Model::Freeze(Freezebox& data)
@@ -222,7 +232,7 @@ namespace mvc
 
 	void Model::Aimbot() const
 	{
-		auto entityList{ *(re::EntityList**)(moduleBaseAddress + 0x10F4F8) };
+		auto entityList{ GetEntityList() };
 		if (!entityList)
 		{
 			return;
@@ -259,12 +269,20 @@ namespace mvc
 		}
 	}
 
-	void Model::ESP() const
+	void Model::ESP()
 	{
 	}
 
+	/**
+	 * @return Number of players
+	 */
 	int32_t Model::GetNumberOfPlayers() const
 	{
 		return *(int32_t*)(moduleBaseAddress + 0x10F500);
+	}
+
+	re::EntityList* Model::GetEntityList() const
+	{
+		return *(re::EntityList**)(moduleBaseAddress + 0x10F4F8);
 	}
 } // namespace mvc
