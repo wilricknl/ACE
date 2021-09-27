@@ -1,3 +1,9 @@
+/**
+ * @file Color.h
+ * @brief RGB color structure
+ * @author wilricknl
+ * @see https://github.com/wilricknl/ACE
+ */
 #pragma once
 
 namespace draw

@@ -1,3 +1,9 @@
+/**
+ * @file Draw.h
+ * @brief OpenGL drawing operations
+ * @author wilricknl
+ * @see https://github.com/wilricknl/ACE
+ */
 #pragma once
 #include <string>
 #include "../ReClass/Entity.h"

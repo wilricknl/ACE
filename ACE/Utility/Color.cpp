@@ -1,3 +1,8 @@
+/**
+ * @file Color.cpp
+ * @author wilricknl
+ * @see https://github.com/wilricknl/ACE
+ */
 #include "../pch.h"
 #include "Color.h"
 namespace draw

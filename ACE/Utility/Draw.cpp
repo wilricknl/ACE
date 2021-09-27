@@ -1,3 +1,8 @@
+/**
+ * @file Draw.cpp
+ * @author wilricknl
+ * @see https://github.com/wilricknl/ACE
+ */
 #include "../pch.h"
 #include "gl/GL.h"
 #include "../MVC/Model.h"
@@ -5,6 +10,9 @@
 
 namespace draw
 {
+	/**
+	 * @p model Model provides access various required data in memory
+	 */
 	Draw::Draw(mvc::Model& model)
 		: model(model)
 	{

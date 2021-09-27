@@ -295,6 +295,9 @@ namespace mvc
 		return *(int32_t*)(moduleBaseAddress + 0x10F500);
 	}
 
+	/**
+	 * @return Pointer to entity list
+	 */
 	re::EntityList* Model::GetEntityList() const
 	{
 		return *(re::EntityList**)(moduleBaseAddress + 0x10F4F8);
