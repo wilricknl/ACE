@@ -87,7 +87,13 @@
     <ClCompile Include="MVC\Model.cpp">
       <Filter>MVC</Filter>
     </ClCompile>
+    <ClCompile Include="Utility\Draw.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
     <ClCompile Include="Utility\Math.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\Color.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -149,7 +155,13 @@
     <ClInclude Include="MVC\Model.h">
       <Filter>MVC</Filter>
     </ClInclude>
+    <ClInclude Include="Utility\Draw.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
     <ClInclude Include="Utility\Math.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

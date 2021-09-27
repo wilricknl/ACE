@@ -117,6 +117,7 @@ namespace mvc
 		{
 			ShowGeneralTab();
 			ShowAimAssistTab();
+			ShowESPTab();
 			ImGui::EndTabBar(); // Tabs
 		} 
 	}
@@ -161,6 +162,23 @@ namespace mvc
 				ImGui::EndTable(); // Aim Assist
 			}
 			ImGui::EndTabItem(); // Aim Assist
+		}
+	}
+
+	void View::ShowESPTab()
+	{
+		if (ImGui::BeginTabItem("ESP"))
+		{
+			if (ImGui::BeginTable("ESP Table", 1, ImGuiTableFlags_Borders))
+			{
+				ImGui::TableSetupColumn("Toggle");
+				ImGui::TableHeadersRow();
+
+				ShowCheckbox(model.GetESP());
+
+				ImGui::EndTable(); // ESP Table
+			}
+			ImGui::EndTabItem(); // ESP
 		}
 	}
 

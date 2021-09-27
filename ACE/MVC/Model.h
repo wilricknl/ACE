@@ -6,6 +6,7 @@
  */
 #pragma once
 #include "../ReClass/Entity.h"
+#include "../Utility/Draw.h"
 #include "Widgets.h"
 
 namespace mvc
@@ -47,6 +48,12 @@ namespace mvc
 		/** @brief Get access to aimbot data
 		 */
 		Checkbox& GetAimbot();
+		/** @brief Get access to ESP data
+		 */
+		Checkbox& GetESP();
+		/** @brief Get the in-game view matrix
+		 */
+		float* GetViewMatrix() const;
 	private:
 		/** @brief Get the base address of Assault Cube.
 		 */
@@ -73,13 +80,20 @@ namespace mvc
 		/** @brief Aimbot logic
 		 */
 		void Aimbot() const;
+		/** @brief ESP drawing
+		 */
+		void ESP();
 		/** @brief Get number of players in-game
 		 */
 		int32_t GetNumberOfPlayers() const;
+		/** @brief Get entity list
+		 */
+		re::EntityList* GetEntityList() const;
 	private:
 		uintptr_t moduleBaseAddress; ///< Base address of Assault Cube executable.
 		re::Entity* localPlayer; ///< Pointer to local player memory region.
 		tGetEntityAtCrosshair GetEntityAtCrosshair; ///< Function pointer to `GetCrosshairEntity` function
+		draw::Draw draw; ///< Drawing operations
 		bool bInitialized; ///< Initialization status.
 		CheckSliderInt32 health; ///< Local player health data.
 		CheckSliderInt32 armor; ///< Local player armor data.
@@ -88,5 +102,6 @@ namespace mvc
 		Freezebox triggerbot; ///< Triggerbot
 		Patchbox noRecoil; ///< No recoil and no spread
 		Freezebox aimbot; ///< Aimbot
+		Freezebox esp; ///< ESP
 	};
 } // namespace mvc

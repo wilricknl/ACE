@@ -15,6 +15,7 @@ namespace mvc
 	moduleBaseAddress(0),
 	localPlayer(nullptr),
 	GetEntityAtCrosshair(nullptr),
+	draw(*this),
 	bInitialized(false),
 	health(
 		"Health",
@@ -66,7 +67,8 @@ namespace mvc
 		memory::Patch((BYTE*)(moduleBaseAddress + 0x63786), 
 			(BYTE*)"\x50\x8D\x4C\x24\x1C\x51\x8B\xCE\xFF\xD2", 10);
 	}),
-	aimbot("Aimbot", [this] { Aimbot(); })
+	aimbot("Aimbot", [this] { Aimbot(); }),
+	esp("ESP", [this]() { ESP(); })
 	{
 		Initialize();
 	}
@@ -159,6 +161,19 @@ namespace mvc
 		return aimbot;
 	}
 
+	Checkbox& Model::GetESP()
+	{
+		return esp;
+	}
+
+	/**
+	 * @return View matrix
+	 */
+	float* Model::GetViewMatrix() const
+	{
+		return (float*)(moduleBaseAddress + 0x101AE8);
+	}
+
 	/**
 	 * @return `true` if succeeded, else `false`.
 	 */
@@ -181,6 +196,7 @@ namespace mvc
 		Freeze(jump);
 		Freeze(triggerbot);
 		Freeze(aimbot);
+		Freeze(esp);
 	}
 
 	void Model::Freeze(Freezebox& data)
@@ -216,7 +232,7 @@ namespace mvc
 
 	void Model::Aimbot() const
 	{
-		auto entityList{ *(re::EntityList**)(moduleBaseAddress + 0x10F4F8) };
+		auto entityList{ GetEntityList() };
 		if (!entityList)
 		{
 			return;
@@ -253,8 +269,37 @@ namespace mvc
 		}
 	}
 
+	void Model::ESP()
+	{
+		auto entityList{ GetEntityList() };
+		if (entityList)
+		{
+			draw.Setup2D();
+			for (int i{ 0 }; i < GetNumberOfPlayers(); ++i)
+			{
+				auto entity = entityList->entities[i];
+				if (entity and entity->IsAlive() and localPlayer)
+				{
+					draw.Entity2D(entity, localPlayer->Team != entity->Team);
+				}
+			}
+			draw.Restore2D();
+		}
+	}
+
+	/**
+	 * @return Number of players
+	 */
 	int32_t Model::GetNumberOfPlayers() const
 	{
 		return *(int32_t*)(moduleBaseAddress + 0x10F500);
+	}
+
+	/**
+	 * @return Pointer to entity list
+	 */
+	re::EntityList* Model::GetEntityList() const
+	{
+		return *(re::EntityList**)(moduleBaseAddress + 0x10F4F8);
 	}
 } // namespace mvc
