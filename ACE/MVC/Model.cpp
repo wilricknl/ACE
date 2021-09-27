@@ -6,6 +6,7 @@
 #include "../pch.h"
 #include "../ReClass/Weapon.h"
 #include "../Memory/Memory.h"
+#include "../Utility/Math.h"
 #include "Model.h"
 
 namespace mvc
@@ -23,10 +24,7 @@ namespace mvc
 		9999,
 		[this](int value)
 		{
-			if (localPlayer)
-			{
-				localPlayer->Health = value;
-			}
+			if (localPlayer) localPlayer->Health = value;
 		},
 		1337),
 	armor(
@@ -35,10 +33,7 @@ namespace mvc
 		9999,
 		[this](int value)
 		{
-			if (localPlayer)
-			{
-				localPlayer->Armor = value;
-			}
+			if (localPlayer) localPlayer->Armor = value;
 		},
 		1337),
 	ammunition(
@@ -56,19 +51,26 @@ namespace mvc
 				}
 			}
 		},
-		1337),
+		1337
+	),
 	jump("Jump", [this] { localPlayer->bJump = true; }),
 	triggerbot("Triggerbot", [this] { Triggerbot(); }),
-	noRecoil("No Recoil/Spread", [this]
-	{
-		memory::Nop((BYTE*)(moduleBaseAddress + 0x63786), 10);
-	}, [this]
-	{
-		memory::Patch((BYTE*)(moduleBaseAddress + 0x63786), 
-			(BYTE*)"\x50\x8D\x4C\x24\x1C\x51\x8B\xCE\xFF\xD2", 10);
-	}),
+	noRecoil(
+		"No Recoil/Spread", 
+		[this]
+		{
+			memory::Nop((BYTE*)(moduleBaseAddress + 0x63786), 10);
+		}, 
+		[this]
+		{
+			memory::Patch((BYTE*)(moduleBaseAddress + 0x63786), 
+					(BYTE*)"\x50\x8D\x4C\x24\x1C\x51\x8B\xCE\xFF\xD2", 10);
+		}
+	),
 	aimbot("Aimbot", [this] { Aimbot(); }),
-	esp("ESP", [this]() { ESP(); })
+	esp("ESP", [this]() { ESP(); }),
+	teleport("Teleport", 0, 100, [this](int value) { Teleport((float)value);  }, 5),
+	autoShoot("Auto Shoot", [this] { if (localPlayer) localPlayer->bShoot = true;  })
 	{
 		Initialize();
 	}
@@ -166,6 +168,16 @@ namespace mvc
 		return esp;
 	}
 
+	CheckSliderInt32& Model::GetTeleport()
+	{
+		return teleport;
+	}
+
+	Checkbox& Model::GetAutoShoot()
+	{
+		return autoShoot;
+	}
+
 	/**
 	 * @return View matrix
 	 */
@@ -197,6 +209,8 @@ namespace mvc
 		Freeze(triggerbot);
 		Freeze(aimbot);
 		Freeze(esp);
+		Freeze(teleport);
+		Freeze(autoShoot);
 	}
 
 	void Model::Freeze(Freezebox& data)
@@ -284,6 +298,36 @@ namespace mvc
 				}
 			}
 			draw.Restore2D();
+		}
+	}
+
+	/**
+	 * @p distance Teleport distance from local player
+	 */
+	void Model::Teleport(float distance)
+	{
+		auto entityList{ GetEntityList() };
+		if (entityList)
+		{
+			auto view{ localPlayer->Angle };
+			math::Vec3 normal{
+				std::cos(math::DegreesToRadians(view.x - 90.f)) * distance,
+				std::sin(math::DegreesToRadians(view.x - 90.f)) * distance,
+				std::sin(math::DegreesToRadians(view.y)) * distance
+			};
+
+			for (int i{ 0 }; i < GetNumberOfPlayers(); ++i)
+			{
+				auto entity = entityList->entities[i];
+				if (entity
+					and localPlayer
+					and localPlayer != entity
+					and entity->IsAlive()
+					and entity->Team != localPlayer->Team)
+				{
+					entity->Position = localPlayer->Position + normal;
+				}
+			}
 		}
 	}
 

@@ -23,4 +23,22 @@ namespace math
 	{
 		return std::abs(a) <= tolerance;
 	}
+
+	/**
+	 * @return Degrees
+	 */
+	float RadiansToDegrees(float radians)
+	{
+		constexpr float conversion{ 180.f / 3.1415926535897922328f };
+		return radians * conversion;
+	}
+
+	/**
+	 * @return Radians
+	 */
+	float DegreesToRadians(float degrees)
+	{
+		constexpr float conversion{ 3.1415926535897922328f / 180.f };
+		return degrees * conversion;
+	}
 } // namespace math

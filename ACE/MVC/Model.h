@@ -51,6 +51,12 @@ namespace mvc
 		/** @brief Get access to ESP data
 		 */
 		Checkbox& GetESP();
+		/** @brief Get access to the teleport data
+		 */
+		CheckSliderInt32& GetTeleport();
+		/** @brief Get access to auto shoot
+		 */
+		Checkbox& GetAutoShoot();
 		/** @brief Get the in-game view matrix
 		 */
 		float* GetViewMatrix() const;
@@ -83,6 +89,9 @@ namespace mvc
 		/** @brief ESP drawing
 		 */
 		void ESP();
+		/** @brief Teleport enemies
+		 */
+		void Teleport(float distance = 1.f);
 		/** @brief Get number of players in-game
 		 */
 		int32_t GetNumberOfPlayers() const;
@@ -103,5 +112,7 @@ namespace mvc
 		Patchbox noRecoil; ///< No recoil and no spread
 		Freezebox aimbot; ///< Aimbot
 		Freezebox esp; ///< ESP
+		CheckSliderInt32 teleport; ///< Teleport
+		Freezebox autoShoot; ///< Automatic shooting
 	};
 } // namespace mvc
