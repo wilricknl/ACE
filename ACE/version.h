@@ -4,7 +4,7 @@
  *
  * @author wilricknl
  * @date 17 August 2021
- * @version 0.2.2
+ * @version 0.3.0
  * @see https://github.com/wilricknl/ACE
  */
 /**
@@ -23,6 +23,8 @@ namespace version
 
 /**
  * Version History
+ *
+ * Release version 0.3.0
  *
  * 0.2.2
  * [+] 2D ESP for entities
