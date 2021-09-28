@@ -149,10 +149,12 @@
   <ItemGroup>
     <ClCompile Include="Commandline.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Memory.cpp" />
     <ClCompile Include="version.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Commandline.hpp" />
+    <ClInclude Include="Memory.hpp" />
     <ClInclude Include="version.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

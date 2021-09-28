@@ -24,12 +24,18 @@
     <ClCompile Include="Commandline.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Memory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="version.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Commandline.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Memory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
