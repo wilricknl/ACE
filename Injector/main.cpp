@@ -1,7 +1,13 @@
 #include <iostream>
+#include "Commandline.hpp"
 
 int main(int argc, char* argv[])
 {
-	std::cout << "Hello, injector!\n";
+    cmd::options::variables_map variables;
+    if (cmd::ParseArguments(argc, argv, variables))
+    {
+        return 0;
+    }
+    return 1;
 }
 
