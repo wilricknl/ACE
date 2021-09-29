@@ -2,7 +2,7 @@
 #include "Commandline.hpp"
 #include "Memory.hpp"
 
-int exit(std::string message, int value)
+int exit(std::string const& message, int value)
 {
     std::cout << message << '\n';
     return value;
@@ -23,12 +23,37 @@ int main(int argc, char* argv[])
 
     DWORD processId;
     if (not memory::SelectProcessId(
-        to_wstring(variables["executable"].as<std::string>()).c_str(), 
+        to_wstring(variables["program"].as<std::string>()).c_str(), 
         processId))
     {
 		return exit("Failed to find the executable", 1);
     }
 
-	std::cout << "Process id: " << std::to_string(processId) << '\n';
+    auto handle = OpenProcess(PROCESS_ALL_ACCESS, false, processId);
+    if (handle == INVALID_HANDLE_VALUE)
+    {
+        return exit("Failed to acquire a handle", 1);
+    }
+
+    auto* location = VirtualAllocEx(handle, 0, MAX_PATH, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+    if (not location)
+    {
+        return exit("Failed to allocate memory", 1);
+    }
+
+    auto cheat = variables["cheat"].as<std::string>();
+    if (not WriteProcessMemory(handle, location, cheat.c_str(), cheat.size() + 1, nullptr))
+    {
+        return exit("Failed to write DLL path to memory", 1);
+    }
+
+	auto hThread = CreateRemoteThread(handle, 0, 0, (LPTHREAD_START_ROUTINE)LoadLibraryA, location, 0, 0);
+    CloseHandle(handle);
+    if (not hThread)
+    {
+        return exit("Failed to load the DLL", 1);
+    }
+
+	return exit("Successfully injected!", 0);
 }
 

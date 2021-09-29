@@ -10,6 +10,9 @@ namespace version
 /**
  * Version History
  *
+ * 0.0.3
+ * [+] Add DLL injection
+ *
  * 0.0.2
  * [+] Process id selection
  *

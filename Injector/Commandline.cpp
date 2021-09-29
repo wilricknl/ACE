@@ -22,7 +22,7 @@ namespace cmd
         description.add_options()
             ("help,h", "help message")
 			("version,v", "version")
-            ("executable,e", options::value<std::string>()->default_value("ac_client.exe"), "executable name")
+            ("program,p", options::value<std::string>()->default_value("ac_client.exe"), "executable name")
             ("cheat,c", options::value<std::string>()->required(), "path to the cheat");
 
         try
