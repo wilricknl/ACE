@@ -110,7 +110,7 @@ namespace mvc
 	{
 	public:
 		CheckSlider(std::string label, T minimum, T maximum, std::function<void(T)> action, T value = (T)100)
-			: checkbox(std::move(label)), slider(minimum, maximum, "##" + label, value), action(std::move(action))
+			: checkbox(label), slider(minimum, maximum, "##" + label, value), action(std::move(action))
 		{}
 
 		/**
