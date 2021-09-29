@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Memory">
+      <UniqueIdentifier>{55c75ed2-e741-42b8-9e36-64baac912ce1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{41046868-ec38-437c-881e-a8e6bc233cd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Injector">
+      <UniqueIdentifier>{eaaccce5-8d91-4028-ad2e-f87fe8300f08}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -21,22 +30,28 @@
     <ClCompile Include="version.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Commandline.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Memory\Memory.cpp">
+      <Filter>Memory</Filter>
     </ClCompile>
-    <ClCompile Include="Memory.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Utility\Utility.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Injector\Injector.cpp">
+      <Filter>Injector</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="version.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Commandline.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Memory\Memory.hpp">
+      <Filter>Memory</Filter>
     </ClInclude>
-    <ClInclude Include="Memory.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Utility\Utility.hpp">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Injector\Injector.hpp">
+      <Filter>Injector</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
