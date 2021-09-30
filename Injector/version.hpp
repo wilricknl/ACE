@@ -9,6 +9,8 @@ namespace version
 /**
  * Version History
  *
+ * Release version 0.1.0
+ *
  * 0.0.4
  * [+] Add injector configuration using ini files
  * 
