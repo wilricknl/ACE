@@ -1,3 +1,4 @@
+#include "pch.hpp"
 #include "version.hpp"
 
 namespace version

@@ -1,5 +1,5 @@
+#include "../pch.hpp"
 #include "Utility.hpp"
-#include <iostream>
 
 namespace utility
 {

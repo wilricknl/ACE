@@ -39,6 +39,9 @@
     <ClCompile Include="Injector\Injector.cpp">
       <Filter>Injector</Filter>
     </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="version.hpp">
@@ -52,6 +55,9 @@
     </ClInclude>
     <ClInclude Include="Injector\Injector.hpp">
       <Filter>Injector</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

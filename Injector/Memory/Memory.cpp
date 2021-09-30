@@ -1,6 +1,5 @@
+#include "../pch.hpp"
 #include "Memory.hpp"
-#include <TlHelp32.h>
-#include <iostream>
 
 namespace memory
 {
