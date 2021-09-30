@@ -1,17 +1,29 @@
 #pragma once
-#include <boost/program_options.hpp>
+#include <string>
 
 namespace injector
 {
-	namespace options = boost::program_options;
-
+	/** @brief Injector injects DLLs into other program
+	 */
 	class Injector
 	{
 	public:
 		Injector() = default;
+		/** @brief Setup the injector for injection
+		 */
 		bool Initialize(int argc, char* argv[]);
-		int Run() const;
+		/** @brief Attempt the injection
+		 */
+		int Inject() const;
 	private:
-		options::variables_map arguments;
+		/** @brief Load settings from the ini file
+		 */
+		bool LoadIni();
+		/** @brief Save the arguments as ini file
+		 */
+		void SaveIni() const;
+	private:
+		std::string program; ///< Program where the cheat will be injected
+		std::string cheat; ///< Path to the cheat DLL
 	};
 } // namespace injector

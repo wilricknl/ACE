@@ -1,4 +1,8 @@
 #include "Injector.hpp"
+#include <boost/filesystem.hpp>
+#include <boost/program_options.hpp>
+#include <boost/property_tree/ini_parser.hpp>
+#include <boost/property_tree/ptree.hpp>
 #include <iostream>
 #include "../Memory/Memory.hpp"
 #include "../Utility/Utility.hpp"
@@ -6,6 +10,9 @@
 
 namespace injector
 {
+    namespace options = boost::program_options;
+    namespace property = boost::property_tree;
+
     /**
      * @p argc Argument count
      * @p argv Commandline arguments
@@ -14,17 +21,24 @@ namespace injector
      */
 	bool Injector::Initialize(int argc, char* argv[])
 	{
+        if (argc == 1)
+        {
+            return LoadIni();
+        }
+
         options::options_description description{+
             "Allowed options"
         };
         description.add_options()
-            ("help,h", "help message")
-            ("version,v", "version")
             ("program,p", options::value<std::string>()->default_value("ac_client.exe"), "executable name")
-            ("cheat,c", options::value<std::string>()->required(), "path to the cheat");
+            ("cheat,c", options::value<std::string>()->required(), "path to the cheat")
+            ("save,s", "save provided arguments to an ini file")
+            ("help,h", "help message")
+            ("version,v", "version");
 
-        try
+		try
         {
+            options::variables_map arguments;
             options::store(options::parse_command_line(argc, argv, description), arguments);
             if (arguments.count("help"))
             {
@@ -33,10 +47,26 @@ namespace injector
             }
             if (arguments.count("version"))
             {
-                std::cout << version::version << std::endl;
-                return false;
+                return utility::Exit(version::version, false);
             }
-            options::notify(arguments);
+            if (not arguments.count("cheat"))
+            {
+                return utility::Exit("Provide a path to the cheat\n", false);
+            }
+
+            program = arguments["program"].as<std::string>();
+            cheat = arguments["cheat"].as<std::string>();
+
+            if (not boost::filesystem::exists(cheat))
+            {
+                return utility::Exit("Could not find: " + cheat, false);
+            }
+
+            if (arguments.count("save"))
+            {
+                SaveIni();
+            }
+
             return true;
         }
         catch (std::exception& e)
@@ -55,11 +85,11 @@ namespace injector
     /**
      * @return Exit value
      */
-	int Injector::Run() const
+	int Injector::Inject() const
 	{
         DWORD processId;
         if (not memory::SelectProcessId(
-            utility::to_wstring(arguments["program"].as<std::string>()).c_str(),
+            utility::to_wstring(program).c_str(),
             processId))
         {
             return utility::Exit("Failed to find the executable", 1);
@@ -77,7 +107,6 @@ namespace injector
             return utility::Exit("Failed to allocate memory", 1);
         }
 
-        auto cheat = arguments["cheat"].as<std::string>();
         if (not WriteProcessMemory(handle, location, cheat.c_str(), cheat.size() + 1, nullptr))
         {
             return utility::Exit("Failed to write DLL path to memory", 1);
@@ -91,5 +120,44 @@ namespace injector
         }
 
         return utility::Exit("Successfully injected!", 0);
+	}
+
+    /**
+     * @return `true` if success, else `false`
+     */
+	bool Injector::LoadIni()
+	{
+        if (not boost::filesystem::exists("settings.ini"))
+        {
+            return utility::Exit("Could not find settings.ini", false);
+        }
+
+        property::ptree settings;
+        read_ini("settings.ini", settings);
+        if (not settings.empty())
+        {
+            try
+            {
+        		program = settings.get<std::string>("Injector.program");
+				cheat = settings.get<std::string>("Injector.cheat");
+                return true;
+            }
+            catch(std::exception& e)
+            {
+                std::cout << "Error: " << e.what() << '\n';
+                return utility::Exit("The ini file is corrupt. Regenerate the ini file using --save", false);
+            }
+        }
+        return utility::Exit("No suitable ini file found. Use --help for more information", false);
+	}
+
+	void Injector::SaveIni() const
+	{
+        std::fstream ini{ "settings.ini",  std::ofstream::out|std::ofstream::trunc };
+        if (ini.is_open())
+        {
+            std::string content{ "[Injector]\nprogram=" + program + "\ncheat=" + cheat };
+            ini.write(content.c_str(), content.size());
+        }
 	}
 } // namespace injector

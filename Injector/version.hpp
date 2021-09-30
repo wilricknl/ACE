@@ -10,6 +10,9 @@ namespace version
 /**
  * Version History
  *
+ * 0.0.4
+ * [+] Add injector configuration using ini files
+ * 
  * 0.0.3
  * [+] Add DLL injection
  *
