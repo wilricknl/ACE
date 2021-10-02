@@ -228,7 +228,7 @@ namespace mvc
 			auto* entity = (re::Entity*)GetEntityAtCrosshair();
 			if (entity)
 			{
-				if (entity->Team != localPlayer->Team && entity->Health != 0)
+				if (IsEnemy(entity) and entity->IsAlive())
 				{
 					localPlayer->bShoot = true;
 				}
@@ -259,7 +259,7 @@ namespace mvc
 			auto entity{ entityList->entities[i] };
 			if (entity 
 				and localPlayer != entity 
-				and localPlayer->Team != entity->Team
+				and IsEnemy(entity)
 				and entity->IsAlive()
 				and localPlayer->IsEntityVisible(entity))
 			{
@@ -294,7 +294,7 @@ namespace mvc
 				auto entity = entityList->entities[i];
 				if (entity and entity->IsAlive() and localPlayer)
 				{
-					draw.Entity2D(entity, localPlayer->Team != entity->Team);
+					draw.Entity2D(entity, IsEnemy(entity));
 				}
 			}
 			draw.Restore2D();
@@ -323,7 +323,7 @@ namespace mvc
 					and localPlayer
 					and localPlayer != entity
 					and entity->IsAlive()
-					and entity->Team != localPlayer->Team)
+					and IsEnemy(entity))
 				{
 					entity->Position = localPlayer->Position + normal;
 				}
@@ -345,5 +345,46 @@ namespace mvc
 	re::EntityList* Model::GetEntityList() const
 	{
 		return *(re::EntityList**)(moduleBaseAddress + 0x10F4F8);
+	}
+
+	/** @return Game mode
+	 */
+	int32_t Model::GetGameMode() const
+	{
+		return *(int32_t*)(moduleBaseAddress + 0x10F49C);
+	}
+
+	/**
+	 * @p gameMode Game mode id
+	 *
+	 * @return `true` if in team game, else `false`
+	 */
+	bool Model::IsTeamGame(int32_t gameMode) const
+	{
+		return gameMode == 0
+			or gameMode == 4
+			or gameMode == 5
+			or gameMode == 7
+			or gameMode == 11
+			or gameMode == 13
+			or gameMode == 14
+			or gameMode == 16
+			or gameMode == 17
+			or gameMode == 20
+			or gameMode == 21;
+	}
+
+	/**
+	 * @p entity Entity to check
+	 *
+	 * @return `true` if entity is enemy, else `false`
+	 */
+	bool Model::IsEnemy(re::Entity* entity) const
+	{
+		if (IsTeamGame(GetGameMode()))
+		{
+			return localPlayer->Team != entity->Team;
+		}
+		return true;
 	}
 } // namespace mvc

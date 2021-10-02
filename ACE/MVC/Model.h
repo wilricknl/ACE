@@ -98,6 +98,15 @@ namespace mvc
 		/** @brief Get entity list
 		 */
 		re::EntityList* GetEntityList() const;
+		/** @brief Get the game mode
+		 */
+		int32_t GetGameMode() const;
+		/** @brief Check if in team game
+		 */
+		bool IsTeamGame(int32_t gameMode) const;
+		/** @brief Check if entity is an enemy
+		 */
+		bool IsEnemy(re::Entity* entity) const;
 	private:
 		uintptr_t moduleBaseAddress; ///< Base address of Assault Cube executable.
 		re::Entity* localPlayer; ///< Pointer to local player memory region.
