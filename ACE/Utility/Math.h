@@ -15,4 +15,12 @@ namespace math
 	/** @brief Check if a float is nearly zero
 	 */
 	bool IsNearlyZero(float a, float tolerance = 0.00001f);
+
+	/** @brief Convert radians to degrees
+	 */
+	float RadiansToDegrees(float radians);
+
+	/** @brief Convert degrees to radians
+	 */
+	float DegreesToRadians(float degrees);
 } // namespace math

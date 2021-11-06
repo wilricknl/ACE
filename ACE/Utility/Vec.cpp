@@ -4,6 +4,7 @@
  * @see https://github.com/wilricknl/ACE
  */
 #include "../pch.h"
+#include "Math.h"
 #include "Vec.h"
 
 namespace math
@@ -65,13 +66,10 @@ namespace math
 	 */
 	Vec3 Vec3::Angle(Vec3 const& other) const
 	{
-		constexpr float conversion{ 180.f / 3.1415926535897922328f };
 		Vec3 diff{ other - *this };
-		Vec3 angles{
-			atan2(diff.y, diff.x) * conversion + 90.f,
-			atan2(diff.z, sqrt(diff.x * diff.x + diff.y * diff.y)) * conversion
+		return Vec3{
+			RadiansToDegrees(atan2(diff.y, diff.x)) + 90.f,
+			RadiansToDegrees(atan2(diff.z, sqrt(diff.x * diff.x + diff.y * diff.y)))
 		};
-
-		return angles;
 	}
 } // namespace math

@@ -158,6 +158,7 @@ namespace mvc
 				ShowCheckbox(model.GetTriggerbot());
 				ShowPatchbox(model.GetNoRecoil());
 				ShowCheckbox(model.GetAimbot());
+				ShowCheckbox(model.GetAutoShoot());
 
 				ImGui::EndTable(); // Aim Assist
 			}
@@ -169,12 +170,15 @@ namespace mvc
 	{
 		if (ImGui::BeginTabItem("ESP"))
 		{
-			if (ImGui::BeginTable("ESP Table", 1, ImGuiTableFlags_Borders))
+			if (ImGui::BeginTable("ESP Table", 2, ImGuiTableFlags_Borders))
 			{
 				ImGui::TableSetupColumn("Toggle");
+				ImGui::TableSetupColumn("Amount");
 				ImGui::TableHeadersRow();
 
 				ShowCheckbox(model.GetESP());
+				ImGui::TableNextColumn();
+				ShowCheckSliderInt32(model.GetTeleport());
 
 				ImGui::EndTable(); // ESP Table
 			}

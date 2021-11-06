@@ -4,7 +4,7 @@
  *
  * @author wilricknl
  * @date 17 August 2021
- * @version 0.3.0
+ * @version 0.3.1
  * @see https://github.com/wilricknl/ACE
  */
 /**
@@ -23,6 +23,10 @@ namespace version
 
 /**
  * Version History
+ *
+ * 0.3.1
+ * [+] Teleport of enemies
+ * [+] Auto shoot
  *
  * Release version 0.3.0
  *

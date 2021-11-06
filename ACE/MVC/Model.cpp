@@ -6,6 +6,7 @@
 #include "../pch.h"
 #include "../ReClass/Weapon.h"
 #include "../Memory/Memory.h"
+#include "../Utility/Math.h"
 #include "Model.h"
 
 namespace mvc
@@ -23,10 +24,7 @@ namespace mvc
 		9999,
 		[this](int value)
 		{
-			if (localPlayer)
-			{
-				localPlayer->Health = value;
-			}
+			if (localPlayer) localPlayer->Health = value;
 		},
 		1337),
 	armor(
@@ -35,10 +33,7 @@ namespace mvc
 		9999,
 		[this](int value)
 		{
-			if (localPlayer)
-			{
-				localPlayer->Armor = value;
-			}
+			if (localPlayer) localPlayer->Armor = value;
 		},
 		1337),
 	ammunition(
@@ -56,19 +51,26 @@ namespace mvc
 				}
 			}
 		},
-		1337),
+		1337
+	),
 	jump("Jump", [this] { localPlayer->bJump = true; }),
 	triggerbot("Triggerbot", [this] { Triggerbot(); }),
-	noRecoil("No Recoil/Spread", [this]
-	{
-		memory::Nop((BYTE*)(moduleBaseAddress + 0x63786), 10);
-	}, [this]
-	{
-		memory::Patch((BYTE*)(moduleBaseAddress + 0x63786), 
-			(BYTE*)"\x50\x8D\x4C\x24\x1C\x51\x8B\xCE\xFF\xD2", 10);
-	}),
+	noRecoil(
+		"No Recoil/Spread", 
+		[this]
+		{
+			memory::Nop((BYTE*)(moduleBaseAddress + 0x63786), 10);
+		}, 
+		[this]
+		{
+			memory::Patch((BYTE*)(moduleBaseAddress + 0x63786), 
+					(BYTE*)"\x50\x8D\x4C\x24\x1C\x51\x8B\xCE\xFF\xD2", 10);
+		}
+	),
 	aimbot("Aimbot", [this] { Aimbot(); }),
-	esp("ESP", [this]() { ESP(); })
+	esp("ESP", [this]() { ESP(); }),
+	teleport("Teleport", 0, 100, [this](int value) { Teleport((float)value);  }, 5),
+	autoShoot("Auto Shoot", [this] { if (localPlayer) localPlayer->bShoot = true;  })
 	{
 		Initialize();
 	}
@@ -166,6 +168,16 @@ namespace mvc
 		return esp;
 	}
 
+	CheckSliderInt32& Model::GetTeleport()
+	{
+		return teleport;
+	}
+
+	Checkbox& Model::GetAutoShoot()
+	{
+		return autoShoot;
+	}
+
 	/**
 	 * @return View matrix
 	 */
@@ -197,6 +209,8 @@ namespace mvc
 		Freeze(triggerbot);
 		Freeze(aimbot);
 		Freeze(esp);
+		Freeze(teleport);
+		Freeze(autoShoot);
 	}
 
 	void Model::Freeze(Freezebox& data)
@@ -214,7 +228,7 @@ namespace mvc
 			auto* entity = (re::Entity*)GetEntityAtCrosshair();
 			if (entity)
 			{
-				if (entity->Team != localPlayer->Team && entity->Health != 0)
+				if (IsEnemy(entity) and entity->IsAlive())
 				{
 					localPlayer->bShoot = true;
 				}
@@ -245,7 +259,7 @@ namespace mvc
 			auto entity{ entityList->entities[i] };
 			if (entity 
 				and localPlayer != entity 
-				and localPlayer->Team != entity->Team
+				and IsEnemy(entity)
 				and entity->IsAlive()
 				and localPlayer->IsEntityVisible(entity))
 			{
@@ -280,10 +294,40 @@ namespace mvc
 				auto entity = entityList->entities[i];
 				if (entity and entity->IsAlive() and localPlayer)
 				{
-					draw.Entity2D(entity, localPlayer->Team != entity->Team);
+					draw.Entity2D(entity, IsEnemy(entity));
 				}
 			}
 			draw.Restore2D();
+		}
+	}
+
+	/**
+	 * @p distance Teleport distance from local player
+	 */
+	void Model::Teleport(float distance)
+	{
+		auto entityList{ GetEntityList() };
+		if (entityList)
+		{
+			auto view{ localPlayer->Angle };
+			math::Vec3 normal{
+				std::cos(math::DegreesToRadians(view.x - 90.f)) * distance,
+				std::sin(math::DegreesToRadians(view.x - 90.f)) * distance,
+				std::sin(math::DegreesToRadians(view.y)) * distance
+			};
+
+			for (int i{ 0 }; i < GetNumberOfPlayers(); ++i)
+			{
+				auto entity = entityList->entities[i];
+				if (entity
+					and localPlayer
+					and localPlayer != entity
+					and entity->IsAlive()
+					and IsEnemy(entity))
+				{
+					entity->Position = localPlayer->Position + normal;
+				}
+			}
 		}
 	}
 
@@ -301,5 +345,46 @@ namespace mvc
 	re::EntityList* Model::GetEntityList() const
 	{
 		return *(re::EntityList**)(moduleBaseAddress + 0x10F4F8);
+	}
+
+	/** @return Game mode
+	 */
+	int32_t Model::GetGameMode() const
+	{
+		return *(int32_t*)(moduleBaseAddress + 0x10F49C);
+	}
+
+	/**
+	 * @p gameMode Game mode id
+	 *
+	 * @return `true` if in team game, else `false`
+	 */
+	bool Model::IsTeamGame(int32_t gameMode) const
+	{
+		return gameMode == 0
+			or gameMode == 4
+			or gameMode == 5
+			or gameMode == 7
+			or gameMode == 11
+			or gameMode == 13
+			or gameMode == 14
+			or gameMode == 16
+			or gameMode == 17
+			or gameMode == 20
+			or gameMode == 21;
+	}
+
+	/**
+	 * @p entity Entity to check
+	 *
+	 * @return `true` if entity is enemy, else `false`
+	 */
+	bool Model::IsEnemy(re::Entity* entity) const
+	{
+		if (IsTeamGame(GetGameMode()))
+		{
+			return localPlayer->Team != entity->Team;
+		}
+		return true;
 	}
 } // namespace mvc
